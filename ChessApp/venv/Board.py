@@ -42,7 +42,14 @@ class Board:
         checks winner by determining if there are two kings on the
         board
         '''
-        return "white"
+        kingList = []
+        for col in self.board:
+            for row in self.board:
+                if str(row) == "King":
+                    kingList.append(row)
+        if length(kingList) == 1:
+            return kingList[0].getColor()
+        pass
 
     '''
     returns the current board
