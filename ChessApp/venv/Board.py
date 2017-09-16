@@ -1,3 +1,13 @@
+from Rook import Rook
+from Pawn import Pawn
+from King import King
+from Queen import Queen 
+from Bishop import Bishop
+from Knight import Knight
+
+
+
+
 class Board:
     #Initializes the Board
 
@@ -35,12 +45,12 @@ class Board:
     creates and initializes the board
     '''
     def setInitialState(self):
-        self.board = [[rook(1), pawn(1), 0, 0, 0, 0, pawn(0), rook(0)],
-                      [knight(1), pawn(1), 0, 0, 0, 0, pawn(0), knight(0)],
-                      [bishop(1), pawn(1), 0, 0, 0, 0, pawn(0), bishop(0)],
-                      [queen(1), pawn(1), 0, 0, 0, 0, pawn(0), queen(0)],
-                      [king(1), pawn(1), 0, 0, 0, 0, pawn(0), king(0)],
-                      [bishop(1), pawn(1), 0, 0, 0, 0, pawn(0), bishop(0)],
-                      [knight(1), pawn(1), 0, 0, 0, 0, pawn(0), knight(0)],
-                      [rook(1), pawn(1), 0, 0, 0, 0, pawn(0), rook(0)]]
+        self.board = [[Rook(1), Pawn(1), 0, 0, 0, 0, Pawn(0), Rook(0)],
+                      [Knight(1), Pawn(1), 0, 0, 0, 0, Pawn(0), Knight(0)],
+                      [Bishop(1), Pawn(1), 0, 0, 0, 0, Pawn(0), Bishop(0)],
+                      [Queen(1), Pawn(1), 0, 0, 0, 0, Pawn(0), Queen(0)],
+                      [King(1), Pawn(1), 0, 0, 0, 0, Pawn(0), King(0)],
+                      [Bishop(1), Pawn(1), 0, 0, 0, 0, Pawn(0), Bishop(0)],
+                      [Knight(1), Pawn(1), 0, 0, 0, 0, Pawn(0), Knight(0)],
+                      [Rook(1), Pawn(1), 0, 0, 0, 0, Pawn(0), Rook(0)]]
 
