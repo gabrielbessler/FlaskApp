@@ -1,9 +1,11 @@
 from flask import Flask, request, redirect
+import Game
 app = Flask(__name__)
 
 # 1 for ongoing games
 # 0 otherwise
 games = [0] * 10
+store_games = {}
 
 @app.route('/', methods=["POST", "GET"])
 def hello_word():
@@ -29,5 +31,7 @@ def get_game(game_num):
     '''
     if games[game_num] <= 2:
         games[game_num] += 1
+        if games[game_num] == 2:
+            new_game = new Game()
+            store_games[game_num] = new_game
     return f'This is game number {game_num}'
-
