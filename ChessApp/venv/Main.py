@@ -1,5 +1,5 @@
 from flask import Flask, request, redirect
-import Game
+from Game import Game
 app = Flask(__name__)
 
 # 1 for ongoing games
@@ -25,13 +25,17 @@ def get_next_game():
     # consider aborting here
     return -1
 
-@app.route('/game/<int:game_num>')
+@app.route('/game/<int:game_num>', methods=["POST", "GET"])
 def get_game(game_num):
     '''
     '''
-    if games[game_num] <= 2:
-        games[game_num] += 1
-        if games[game_num] == 2:
-            new_game = new Game()
-            store_games[game_num] = new_game
-    return f'This is game number {game_num}'
+    if request.method == "POST":
+        return "MAKING MOVE"
+    elif request.method == "GET":
+        if games[game_num] <= 2:
+            games[game_num] += 1
+            if games[game_num] == 1:
+                new_game = Game()
+                store_games[game_num] = new_game
+                return store_games[game_num]
+        return f'This is game number {game_num}'
