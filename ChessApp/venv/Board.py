@@ -35,5 +35,12 @@ class Board:
     creates and initializes the board
     '''
     def setInitialState(self):
-        return "Gabe Bess"
+        self.board = [[rook(1), pawn(1), 0, 0, 0, 0, pawn(0), rook(0)],
+                      [knight(1), pawn(1), 0, 0, 0, 0, pawn(0), knight(0)],
+                      [bishop(1), pawn(1), 0, 0, 0, 0, pawn(0), bishop(0)],
+                      [queen(1), pawn(1), 0, 0, 0, 0, pawn(0), queen(0)],
+                      [king(1), pawn(1), 0, 0, 0, 0, pawn(0), king(0)],
+                      [bishop(1), pawn(1), 0, 0, 0, 0, pawn(0), bishop(0)],
+                      [knight(1), pawn(1), 0, 0, 0, 0, pawn(0), knight(0)],
+                      [rook(1), pawn(1), 0, 0, 0, 0, pawn(0), rook(0)]]
 
