@@ -19,4 +19,13 @@ class Game():
         return "THIS IS A GAME"
 
     def make_move(self, test):
-        return self.board.move([int(test[0]), int(test[1])], [int(test[2]), int(test[3])])
+        try:
+            return self.board.move([int(test[0]), int(test[1])], [int(test[2]), int(test[3])]) + "<br>" + str(self.board) + "<br><br><form method='POST'> \
+                    <input type='text' value='1234' name='test'> </input> \
+                        <button type='submit'> Make Move! </button> \
+                </form>"
+        except (KeyError):
+            return str("Invalid Move! <br><br>") + str(self.board) + "<br><br><form method='POST'> \
+                    <input type='text' value='1234' name='test'> </input> \
+                        <button type='submit'> Make Move! </button> \
+                </form>"

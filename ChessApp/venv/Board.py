@@ -14,8 +14,8 @@ class Board:
 
     def __str__(self):
         stringBoard = ''
-        for x in range(0, 7):
-            for y in range(0, 7):
+        for x in range(8):
+            for y in range(8):
                 stringBoard += str(self.board[x][y]) + ' '
             stringBoard += '<br>'
         return stringBoard
@@ -30,17 +30,18 @@ class Board:
         isValidMove(self, piece, currentSquare, nextSquare)
         '''
         piece = self.board[currentSquare[0]][currentSquare[1]]
-        self.board[currentSquare[0]][currentSquare[1]] = 0
-        self.board[nextSquare[0]][nextSquare[1]] = piece
-        return str(self) + "<form method='POST'> \
-                    <input type='text' value='1234' name='test'> </input> \
-                    <button type='submit'> Make Move! </button> \
-            </form>"
-    '''
-    checks winner by determining if there are two kings on the
-    board
-    '''
+        if piece == 0:
+            raise KeyError
+        else:
+            self.board[currentSquare[0]][currentSquare[1]] = 0
+            self.board[nextSquare[0]][nextSquare[1]] = piece
+            return f"Made Move: {currentSquare, nextSquare} for piece {piece} <br>"
+
     def checkWinner(self):
+        '''
+        checks winner by determining if there are two kings on the
+        board
+        '''
         return "white"
 
     '''
