@@ -25,17 +25,21 @@ class Board:
     '''
 
     def move(self, currentSquare, nextSquare):
-        '''
-        Future implentation
-        isValidMove(self, piece, currentSquare, nextSquare)
-        '''
         piece = self.board[currentSquare[0]][currentSquare[1]]
         if piece == 0:
             raise KeyError
         else:
-            self.board[currentSquare[0]][currentSquare[1]] = 0
-            self.board[nextSquare[0]][nextSquare[1]] = piece
-            return f"Made Move: {currentSquare, nextSquare} for piece {piece} <br>"
+            if isValidMove(piece, currentSquare, nextSquare):
+                self.board[currentSquare[0]][currentSquare[1]] = 0
+                self.board[nextSquare[0]][nextSquare[1]] = piece
+                return f"Made Move: {currentSquare, nextSquare} for piece {piece} <br>"
+            else:
+                raise KeyError
+
+    def isValidMove(self, piece, currentSquare, nextSquare):
+        '''TODO'''
+        return True
+
 
     def checkWinner(self):
         '''

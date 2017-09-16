@@ -8,6 +8,16 @@ class King (Piece):
         self.setName("King")
         self.setColor(color)
         self.upAllowed = True
-    
+        self.setMoves()
+        self.setValue(10000)
+
     def __str__(self):
-        return 'King'
+        return f"{self.getName()}({self.getColor()})"
+
+    def setMoves(self):
+        '''
+        Updates the movement variables for the bishop
+        '''
+        self.move_set = [[1,1,1], \
+                         [1,0,1], \
+                         [1,1,1]]

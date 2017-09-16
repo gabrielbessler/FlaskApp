@@ -8,6 +8,17 @@ class Knight (Piece):
         self.setName("Knight")
         self.setColor(color)
         self.upAllowed = True
-    
+        self.setMoves()
+
     def __str__ (self):
-        return "Knight"
+        return f"{self.getName()}({self.getColor()})"
+
+    def setMoves(self):
+        '''
+        Updates the movement variables for the knight
+        '''
+        self.move_set = [[-1,  1, -1,  1, -1], \
+                     [1 , -1, -1, -1,  1], \
+                     [-1, -1,  0, -1, -1], \
+                     [1 , -1, -1, -1,  1], \
+                     [-1,  1, -1,  1, -1]]

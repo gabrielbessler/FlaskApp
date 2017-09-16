@@ -8,6 +8,17 @@ class Rook (Piece):
         self.setName("Rook")
         self.setColor(color)
         self.upAllowed = True
-    
+        self.setMoves()
+        self.setValue(5)
+
     def __str__(self):
-        return 'Rook'
+        return f'{self.getName()}({self.getColor()})'
+
+    def setMoves(self):
+        '''
+        Updates the movement variables for the pawn
+        '''
+        self.left_allowed = True
+        self.right_allowed = True
+        self.up_allowed = True
+        self.down_allowed = True

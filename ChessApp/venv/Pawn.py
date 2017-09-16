@@ -8,6 +8,15 @@ class Pawn (Piece):
         self.setName("Pawn")
         self.setColor(color)
         self.upAllowed = True
-    
+        self.setMoves()
+        self.setValue(1)
+
     def __str__(self):
-        return 'Pawn'
+        return f"{self.getName()}({self.getColor()})"
+
+    def setMoves(self):
+        '''
+        Updates the movement variables for the pawn
+        '''
+        self.move_set = [[2, 1, 2], \
+                         [-1,0,-1]]

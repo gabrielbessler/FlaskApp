@@ -54,10 +54,13 @@ class Piece:
         '''
 
         '''
-        pass
+        return [self.up_allowed, self.left_allowed, self.right_allowed, self.down_allowed, self.diag_left, self.diag_right, self.move_set]
 
     def getRules(self):
         '''
 
         '''
         pass
+
+    def setValue(self, value):
+        self.value = value
