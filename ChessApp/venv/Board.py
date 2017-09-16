@@ -32,3 +32,10 @@ class Board:
     '''
     def getBoard(self):
         return self.board
+
+    '''
+    creates and initializes the board
+    '''
+    def setInitialState(self):
+        return "Gabe Bess"
+
