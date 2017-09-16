@@ -1,19 +1,17 @@
 from Rook import Rook
 from Pawn import Pawn
 from King import King
-from Queen import Queen 
+from Queen import Queen
 from Bishop import Bishop
 from Knight import Knight
-
-
-
 
 class Board:
     #Initializes the Board
 
     def __init__(self):
-        self.setInitialState()
         self.board = []
+        self.setInitialState()
+
     '''
     takes in two locations. Moves piece from current
     square to next Square and replaces the piece with a zero
@@ -24,10 +22,13 @@ class Board:
         Future implentation
         isValidMove(self, piece, currentSquare, nextSquare)
         '''
-        piece = self.board[currentSquare[0], currentSquare[1]]
-        self.board[currentSquare[0], currentSquare[1]] = 0
-        self.board[nextSquare[0], nextSquare[1]] = piece
-
+        piece = self.board[currentSquare[0]][currentSquare[1]]
+        self.board[currentSquare[0]][currentSquare[1]] = 0
+        self.board[nextSquare[0]][nextSquare[1]] = piece
+        return str(self.board) + "<form method='POST'> \
+                    <input type='text' value='1234' name='test'> </input> \
+                    <button type='submit'> Make Move! </button> \
+            </form>"
     '''
     checks winner by determining if there are two kings on the
     board

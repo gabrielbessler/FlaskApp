@@ -1,4 +1,4 @@
-from flask import Flask, request, redirect
+from flask import Flask, request, redirect, abort
 from Game import Game
 app = Flask(__name__)
 
@@ -15,10 +15,15 @@ def hello_word():
             return "Games in progress...please wait..."
         else:
             return redirect("game\\" + str(get_next_game()))
-    return "Hello, World! <form method='post'> <button type='submit' value='Click Me!'> Test <//button> <//form> "
+    display = ""
+    for game_index, game_on in enumerate(games):
+        display += f"Game {game_index+1}, Available: {bool(not game_on)} <br>"
+    return display + "<form method='post'> <button type='submit'> Connect to Game </button> </form> "
 
 def get_next_game():
-    ''' '''
+    '''
+    Loops through the list of ongoing games and finds the next game available
+    '''
     for game_id, game_value in enumerate(games):
         if game_value == 0:
             return game_id
@@ -30,8 +35,12 @@ def get_game(game_num):
     '''
     '''
     if request.method == "POST":
-        Game.make_move(request.form['move'])
-        return request.form['move']
+        try:
+            var = request.form['test']
+            return store_games[game_num].make_move(str(var))
+
+        except (KeyError):
+            abort(404)
     elif request.method == "GET":
         if games[game_num] <= 2:
             games[game_num] += 1
@@ -40,8 +49,8 @@ def get_game(game_num):
                 store_games[game_num] = new_game
                 return str(store_games[game_num]) + \
             "<form method='POST'> \
-                    <textarea name='move' rows='1' cols='4'/> \
-                    <button type='submit' value='Enter Move'> \
+                    <input type='text' value='1234' name='test'> </input> \
+                    <button type='submit'> Make Move! </button> \
             </form>"
             pass
         return f'This is game number {game_num}'

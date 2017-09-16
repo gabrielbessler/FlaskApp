@@ -18,7 +18,5 @@ class Game():
     def __str__(self):
         return "THIS IS A GAME"
 
-    def make_move(self, move):
-        '''
-        '''
-        self.board(self, (move[0], move[1]), (move[2], move[3]))
+    def make_move(self, test):
+        return self.board.move([int(test[0]), int(test[1])], [int(test[2]), int(test[3])])
