@@ -34,8 +34,13 @@ def get_game(game_num):
     elif request.method == "GET":
         if games[game_num] <= 2:
             games[game_num] += 1
-            if games[game_num] == 1:
+            if games[game_num] == 2:
                 new_game = Game()
                 store_games[game_num] = new_game
-                return store_games[game_num]
+                return str(store_games[game_num]) + \
+            "<form method='POST'> \
+                    <textarea rows='1' cols='2'/> \
+                    <button type='submit' value='Enter Move'> \
+            </form>"
+            pass
         return f'This is game number {game_num}'

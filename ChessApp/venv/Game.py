@@ -14,3 +14,6 @@ class Game():
 
         '''
         return "This is the representation of the board"
+
+    def __str__(self):
+        return "THIS IS A GAME"

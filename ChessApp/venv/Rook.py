@@ -1,11 +1,11 @@
 from Piece import Piece
 
-class Pawn (Piece):
+class Rook (Piece):
 
     def __init__(self, color):
         '''
         '''
-        self.setName("Pawn")
+        self.setName("Rook")
         self.setColor(color)
         self.upAllowed = True
 
