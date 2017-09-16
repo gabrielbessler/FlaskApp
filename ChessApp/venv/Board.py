@@ -12,6 +12,13 @@ class Board:
         self.board = []
         self.setInitialState()
 
+    def __str__(self):
+        stringBoard = ''
+        for x in range(0, 7):
+            for y in range(0, 7):
+                stringBoard += str(self.board[x][y]) + ' '
+            stringBoard += '<br>'
+        return stringBoard
     '''
     takes in two locations. Moves piece from current
     square to next Square and replaces the piece with a zero
@@ -25,7 +32,7 @@ class Board:
         piece = self.board[currentSquare[0]][currentSquare[1]]
         self.board[currentSquare[0]][currentSquare[1]] = 0
         self.board[nextSquare[0]][nextSquare[1]] = piece
-        return str(self.board) + "<form method='POST'> \
+        return str(self) + "<form method='POST'> \
                     <input type='text' value='1234' name='test'> </input> \
                     <button type='submit'> Make Move! </button> \
             </form>"
