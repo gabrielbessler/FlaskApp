@@ -14,6 +14,14 @@ class Board:
     def __init__(self):
         self.setInitialState()
         self.board = []
+
+    def __str__(self):
+        stringBoard = ''
+        for x in range(0, 7):
+            for y in range(0, 7):
+                stringBoard += str(self.board[x][y]) + ' '
+            stringBoard += '/n'
+        
     '''
     takes in two locations. Moves piece from current
     square to next Square and replaces the piece with a zero
