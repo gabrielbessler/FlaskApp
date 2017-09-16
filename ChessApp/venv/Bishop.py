@@ -8,4 +8,6 @@ class Bishop (Piece):
         self.setName("Bishop")
         self.setColor(color)
         self.upAllowed = True
-
+    
+    def __str__(self):
+        return "Bishop"

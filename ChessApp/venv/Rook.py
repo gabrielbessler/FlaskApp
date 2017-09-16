@@ -8,4 +8,6 @@ class Rook (Piece):
         self.setName("Rook")
         self.setColor(color)
         self.upAllowed = True
-
+    
+    def __str__(self):
+        return 'Rook'
