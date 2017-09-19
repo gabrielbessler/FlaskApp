@@ -29,18 +29,24 @@ class Board:
         square to next Square and replaces the piece with a zero
         '''
         piece = self.board[currentSquare[0]][currentSquare[1]]
-        target = self.board[currentSquare[0]][currentSquare[1]]
+        target = self.board[nextSquare[0]][nextSquare[1]]
+
         #if we try to move an empty square or move a piece no squares, or on top of a piece of our own color
-        if piece == 0 or currentSquare == nextSquare or target.getColor() == piece.getColor():
-            raise ValueError
+        if piece == 0:
+            raise ValueError("No Piece Selected")
+        if currentSquare == nextSquare:
+            raise ValueError("Cannot Move to Same Position")
         else:
-            #check if given a piece and a different starting/ending square, it is valid
+            if target != 0:
+                if target.getColor() == piece.getColor():
+                    raise ValueError("Cannot Take a Piece of Same Color")
+            #check if given a piece and a different starting/ending square, it is a valid move
             if self.isValidMove(piece, currentSquare, nextSquare):
                 self.board[currentSquare[0]][currentSquare[1]] = 0
                 self.board[nextSquare[0]][nextSquare[1]] = piece
                 return f"Made Move: {currentSquare, nextSquare} for piece {piece} <br>"
             else:
-                raise ValueError
+                raise ValueError("Move Not in Moveset")
 
     def isValidMove(self, piece, currentSquare, nextSquare):
         '''TODO'''
@@ -85,3 +91,17 @@ class Board:
                       [Knight(1), Pawn(1), 0, 0, 0, 0, Pawn(0), Knight(0)],
                       [Rook(1), Pawn(1), 0, 0, 0, 0, Pawn(0), Rook(0)]]
 
+    def getTotalScore(self):
+        '''
+        Count the total score for black and white and returns
+        [WhiteScore, BlackScore]
+        '''
+        total_white_score = 0
+        total_black_score = 0
+        for i in board:
+            for j in board:
+                if j != 0:
+                    if j.getColor() == 0:
+                        total_white_score += j.getValue()
+                    elif j.getColor() == 1:
+                        total_black_score += j.getValue()

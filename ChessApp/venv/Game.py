@@ -4,7 +4,7 @@ class Game():
 
     def __init__(self):
         '''
-
+        Creates a new game.
         '''
         self.board = Board()
         self.curr_turn = 0
@@ -24,13 +24,13 @@ class Game():
         return "This is the representation of the board"
 
     def __str__(self):
-        return "Game Started."
+        return "Game Started. <br>"
 
     def make_move(self, test):
         try:
             return self.board.move([int(test[0]), int(test[1])], [int(test[2]), int(test[3])]) + "<br>" + str(self.board) + "<br><br>" + self.get_next_move()
-        except (ValueError):
-            return str("Invalid Move! <br><br>") + str(self.board) + "<br><br><form method='POST'> \
+        except ValueError as err:
+            return str(f"{err} <br><br>") + str(self.board) + "<br><br><form method='POST'> \
                     <input type='text' value='1234' name='movedata'> </input> \
                         <button type='submit'> Make Move! </button> \
                 </form>"

@@ -11,4 +11,4 @@ class Queen (Piece):
         self.setMoves(upAllowed = True, diagLeft = True, diagRight = True, leftAllowed = True, rightAllowed = True, downAllowed = True)
 
     def __str__(self):
-        return f"{self.getName()} {self.getColor()}"
+        return f"{self.getName()}({self.getColor()})"

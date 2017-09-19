@@ -54,7 +54,7 @@ class Piece:
         self.down_allowed = downAllowed
         self.diag_left = diagLeft
         self.diag_right = diagRight
-        self .move_set = moveSet
+        self.move_set = moveSet
 
     def getAllowedMoves(self):
         '''
@@ -70,3 +70,6 @@ class Piece:
 
     def setValue(self, value):
         self.value = value
+
+    def getValue(self):
+        return self.value
