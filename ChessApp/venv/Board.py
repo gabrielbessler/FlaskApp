@@ -29,7 +29,7 @@ class Board:
         if piece == 0:
             raise KeyError
         else:
-            if isValidMove(piece, currentSquare, nextSquare):
+            if self.isValidMove(piece, currentSquare, nextSquare):
                 self.board[currentSquare[0]][currentSquare[1]] = 0
                 self.board[nextSquare[0]][nextSquare[1]] = piece
                 return f"Made Move: {currentSquare, nextSquare} for piece {piece} <br>"
