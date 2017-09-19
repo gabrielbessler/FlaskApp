@@ -36,10 +36,10 @@ def get_game(game_num):
     '''
     if request.method == "POST":
         try:
-            var = request.form['test']
+            var = request.form['movedata']
             return store_games[game_num].make_move(str(var))
-
         except (KeyError):
+            return "Doing a 404" + str(request.form['movedata'])
             abort(404)
     elif request.method == "GET":
         if games[game_num] <= 2:
@@ -47,10 +47,15 @@ def get_game(game_num):
             if games[game_num] == 2:
                 new_game = Game()
                 store_games[game_num] = new_game
-                return str(store_games[game_num]) + \
-            "<form method='POST'> \
-                    <input type='text' value='1234' name='test'> </input> \
-                    <button type='submit'> Make Move! </button> \
-            </form>"
-            pass
+                return str(store_games[game_num]) + "<br>" + str(store_games[game_num].board) + \
+                "<form method='POST'> \
+                        <input type='text' value='1234' name='movedata'> </input> \
+                        <button type='submit'> Make Move! </button> \
+                </form>"
         return f'This is game number {game_num}'
+
+@app.route('/temp')
+def page_not_found():
+    '''
+    Actions to take on a 404 error.
+    '''

@@ -44,11 +44,17 @@ class Piece:
         '''
         self.color = color
 
-    def setAllowedMoves(self):
+    def setMoves(self, upAllowed = False, leftAllowed = False, rightAllowed = False, downAllowed = False, diagLeft = False, diagRight = False, moveSet = []):
         '''
         Gets the list of squares a piece is allowed to go to relative to itself
         '''
-        pass
+        self.up_allowed = upAllowed
+        self.left_allowed = leftAllowed
+        self.right_allowed = rightAllowed
+        self.down_allowed = downAllowed
+        self.diag_left = diagLeft
+        self.diag_right = diagRight
+        self .move_set = moveSet
 
     def getAllowedMoves(self):
         '''

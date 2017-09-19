@@ -9,15 +9,8 @@ class Bishop (Piece):
         self.setName("Bishop")
         self.setColor(color)
         self.upAllowed = True
-        self.setMoves()
+        self.setMoves(diagRight = True, diagLeft = True)
         self.setValue(3)
 
     def __str__(self):
         return f"{self.getName()}({self.getColor()})"
-
-    def setMoves(self):
-        '''
-        Updates the movement variables for the bishop
-        '''
-        self.diag_right = True
-        self.diag_left = True
