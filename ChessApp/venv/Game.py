@@ -30,10 +30,7 @@ class Game():
         try:
             return self.board.move([int(test[0]), int(test[1])], [int(test[2]), int(test[3])]) + "<br>" + str(self.board) + "<br><br>" + self.get_next_move()
         except ValueError as err:
-            return str(f"{err} <br><br>") + str(self.board) + "<br><br><form method='POST'> \
-                    <input type='text' value='1234' name='movedata'> </input> \
-                        <button type='submit'> Make Move! </button> \
-                </form>"
+            return str(f"{err} <br><br>") + str(self.board) + "<br><br>" + str(get_next_move())
 
     #TODO: test
     def convert_notation(self, text, mode="chess"):
