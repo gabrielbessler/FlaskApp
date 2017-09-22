@@ -19,11 +19,14 @@ def main_page():
             return "Games in progress...please wait..."
         else:
             return redirect("game\\" + str(get_next_game()))
+
     # Display available games to the user
     display = ""
     for game_index, game_on in enumerate(games):
         display += f"Game {game_index+1}, Available: {bool(not game_on)} <br>"
-    return display + render_template('index.html')
+
+    return render_template('index.html', games = games)
+    #return display + render_template('index.html')
 
 def get_next_game():
     '''
@@ -52,11 +55,7 @@ def get_game(game_num):
             if games[game_num] == 2:
                 new_game = Game()
                 store_games[game_num] = new_game
-                return str(store_games[game_num]) + "<br>" + str(store_games[game_num].board) + \
-                "<br><form method='POST'> \
-                        <input type='text' value='1234' name='movedata'> </input> \
-                        <button type='submit'> Make Move! </button> \
-                </form>"
+                return str(store_games[game_num]) + "<br>" + str(store_games[game_num].board) + "<br>" + render_template('get_move.html')
         return f'This is game number {game_num}'
 
 @app.route('/temp')

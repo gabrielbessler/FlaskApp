@@ -1,4 +1,5 @@
 from Board import Board
+from flask import render_template
 
 class Game():
 
@@ -10,12 +11,6 @@ class Game():
         self.curr_turn = 0
         self.convertion = {"A": 1, "B": 2, "C": 3, "D": 4, "E": 5, "F": 6, "G": 7, "H": 8}
         self.reverse_convertion = {1:"A", 2:"B", 3:"C", 4:"D", 5:"E", 6:"F", 7:"G", 8:"H"}
-
-    def get_next_move(self):
-        return "<form method='POST'> \
-                    <input type='text' value='1234' name='movedata'> </input> \
-                    <button type='submit'> Make Move! </button> \
-                </form>"
 
     def __repr__(self):
         '''
@@ -32,9 +27,9 @@ class Game():
             display_score = f"White: {get_score[0]} points. Black: {get_score[1]} points."
             move_in1 = [int(test[0]), int(test[1])]
             move_in2 = [int(test[2]), int(test[3])]
-            return self.board.move(move_in1, move_in2) + "<br>" + display_score + "<br><br>" + str(self.board) + "<br><br>" + self.get_next_move()
+            return self.board.move(move_in1, move_in2) + "<br>" + display_score + "<br><br>" + str(self.board) + "<br><br>" + render_template("get_move.html")
         except ValueError as err:
-            return str(f"{err} <br><br>") + str(self.board) + "<br><br>" + self.get_next_move()
+            return str(f"{err} <br><br>") + str(self.board) + "<br><br>" + self.get_next_move("get_move.html")
 
     def convert_notation(self, text, mode="chess"):
         '''
