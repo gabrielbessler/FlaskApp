@@ -14,6 +14,7 @@ class Knight (Piece):
         self.setColor(color)
         self.upAllowed = True
         self.setMoves(moveSet = self.knightMoves)
+        self.setValue(3)
 
     def __str__ (self):
         return f"{self.getName()}({self.getColor()})"

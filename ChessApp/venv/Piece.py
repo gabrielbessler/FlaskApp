@@ -58,17 +58,14 @@ class Piece:
 
     def getAllowedMoves(self):
         '''
-
+        Returns a list of the moves a particular piece is allowed to make
         '''
         return [self.up_allowed, self.left_allowed, self.right_allowed, self.down_allowed, self.diag_left, self.diag_right, self.move_set]
 
-    def getRules(self):
-        '''
-
-        '''
-        pass
-
     def setValue(self, value):
+        '''
+        Sets the centipawn value of a piece (1 represents 100 centipawns)
+        '''
         self.value = value
 
     def getValue(self):

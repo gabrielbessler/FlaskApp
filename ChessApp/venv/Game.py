@@ -28,11 +28,14 @@ class Game():
 
     def make_move(self, test):
         try:
-            return self.board.move([int(test[0]), int(test[1])], [int(test[2]), int(test[3])]) + "<br>" + str(self.board) + "<br><br>" + self.get_next_move()
+            get_score = self.board.getTotalScore()
+            display_score = f"White: {get_score[0]} points. Black: {get_score[1]} points."
+            move_in1 = [int(test[0]), int(test[1])]
+            move_in2 = [int(test[2]), int(test[3])]
+            return self.board.move(move_in1, move_in2) + "<br>" + display_score + "<br><br>" + str(self.board) + "<br><br>" + self.get_next_move()
         except ValueError as err:
-            return str(f"{err} <br><br>") + str(self.board) + "<br><br>" + str(get_next_move())
+            return str(f"{err} <br><br>") + str(self.board) + "<br><br>" + self.get_next_move()
 
-    #TODO: test
     def convert_notation(self, text, mode="chess"):
         '''
         Input: A string 'text' representing the move we want to make.

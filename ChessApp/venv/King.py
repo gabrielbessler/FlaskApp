@@ -12,7 +12,7 @@ class King (Piece):
         self.setColor(color)
         self.upAllowed = True
         self.setMoves(moveSet = self.kingMoves)
-        self.setValue(10000)
+        self.setValue(0)
 
     def __str__(self):
         return f"{self.getName()}({self.getColor()})"

@@ -98,10 +98,12 @@ class Board:
         '''
         total_white_score = 0
         total_black_score = 0
-        for i in board:
-            for j in board:
+        for i in self.board:
+            for j in i:
                 if j != 0:
                     if j.getColor() == 0:
                         total_white_score += j.getValue()
                     elif j.getColor() == 1:
                         total_black_score += j.getValue()
+
+        return [total_white_score, total_black_score]

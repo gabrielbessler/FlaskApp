@@ -1,4 +1,4 @@
-from flask import Flask, request, redirect, abort
+from flask import Flask, request, redirect, abort, render_template
 from Game import Game
 app = Flask(__name__)
 
@@ -8,17 +8,22 @@ games = [0] * 10
 store_games = {}
 
 @app.route('/', methods=["POST", "GET"])
-def hello_word():
+def main_page():
+    '''
+    Handles the main page for the chess web application
+    '''
+    # If the user requests to join a new game, get the next game available and redirect to URL
     if request.method == "POST":
         game_value = get_next_game()
         if game_value == -1:
             return "Games in progress...please wait..."
         else:
             return redirect("game\\" + str(get_next_game()))
+    # Display available games to the user
     display = ""
     for game_index, game_on in enumerate(games):
         display += f"Game {game_index+1}, Available: {bool(not game_on)} <br>"
-    return display + "<form method='post'> <button type='submit'> Connect to Game </button> </form> "
+    return display + render_template('index.html')
 
 def get_next_game():
     '''
@@ -27,19 +32,19 @@ def get_next_game():
     for game_id, game_value in enumerate(games):
         if game_value == 0:
             return game_id
-    # consider aborting here
     return -1
 
 @app.route('/game/<int:game_num>', methods=["POST", "GET"])
 def get_game(game_num):
     '''
+    Handles ongoing chess matches
     '''
     if request.method == "POST":
         try:
             var = request.form['movedata']
             return store_games[game_num].make_move(str(var))
         except (KeyError):
-            return "Doing a 404" + str(request.form['movedata'])
+            return "Doing a 404<br>Your last move was: " + str(request.form['movedata'])
             abort(404)
     elif request.method == "GET":
         if games[game_num] <= 2:
@@ -48,7 +53,7 @@ def get_game(game_num):
                 new_game = Game()
                 store_games[game_num] = new_game
                 return str(store_games[game_num]) + "<br>" + str(store_games[game_num].board) + \
-                "<form method='POST'> \
+                "<br><form method='POST'> \
                         <input type='text' value='1234' name='movedata'> </input> \
                         <button type='submit'> Make Move! </button> \
                 </form>"
@@ -59,3 +64,4 @@ def page_not_found():
     '''
     Actions to take on a 404 error.
     '''
+    pass
