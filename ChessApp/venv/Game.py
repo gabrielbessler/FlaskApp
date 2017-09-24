@@ -27,7 +27,7 @@ class Game():
             display_score = f"White: {get_score[0]} points. Black: {get_score[1]} points."
             move_in1 = [int(test[0]), int(test[1])]
             move_in2 = [int(test[2]), int(test[3])]
-            return self.board.move(move_in1, move_in2) + "<br>" + display_score + "<br><br>" + str(self.board) + "<br><br>" + render_template("get_move.html")
+            return self.board.move(move_in1, move_in2) + "<br>" + display_score + "<br><br>" + str(self.board) + render_template('display_board.html', board = self.board.board) + "<br><br>" + render_template("get_move.html")
         except ValueError as err:
             return str(f"{err} <br><br>") + str(self.board) + "<br><br>" + self.get_next_move("get_move.html")
 
