@@ -1,10 +1,10 @@
 <br><br>
-
+<div id="display_board">
 {% for row in range(8) %}
 <div style="clear: left;">
 {% for col in range(8) %}
 {% if (col + row) % 2 == 0 %}<div style="float: left; padding: 50px; margin: 0px; width: 0px; height: 0px; background-color: lightgreen; vertical-align: center;">{{ board[row][col] }}</div>{% endif %}
 {% if (col + row) % 2 == 1 %}<div style="float: left; padding: 50px; margin: 0px; width: 0px; height: 0px; background-color: #333333; vertical-align: center;">{{ board[row][col] }}</div>{% endif %}
 {% endfor %}</div>{% endfor %}
-
+</div>
 <br><br><br><br>

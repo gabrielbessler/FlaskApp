@@ -1,5 +1,6 @@
 from flask import Flask, request, redirect, abort, render_template
 from Game import Game
+import json
 app = Flask(__name__)
 
 # 1 for ongoing games
@@ -36,6 +37,13 @@ def get_next_game():
         if game_value == 0:
             return game_id
     return -1
+
+@app.route('/ajax', methods=["POST", "GET"])
+def get_data():
+    data_here = ['1', '2', '3']
+    return json.dumps(data_here)
+    #var = request.form['movedata']
+    #return store_games[game_num].make_move(str(var))
 
 @app.route('/game/<int:game_num>', methods=["POST", "GET"])
 def get_game(game_num):
