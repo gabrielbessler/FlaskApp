@@ -44,6 +44,7 @@ def get_game(game_num):
     '''
     if request.method == "POST":
         try:
+            # here, we want to use JS to create an AJAX request
             var = request.form['movedata']
             return store_games[game_num].make_move(str(var))
         except (KeyError):
