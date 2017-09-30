@@ -11,13 +11,19 @@
         <ul class="list-group">
             {% for game in range(10) %}
                 {% if games[game] == 0 %}
-                    <li id="{{ game }}" class="list-group-item" style="color: green;">Game Number: {{ game }}, Number of Players: {{ games[game] }}</li>
+                    <li id="{{ game }}" class="list-group-item clearfix" style="color: green;">Game Number: {{ game }}, Number of Players: {{ games[game] }}
+                        <input gameval='{{ game }}' type="button" class="btn btn-success pull-right" value="Join Game"></input>
+                    </li>
                 {% endif %}
                 {% if games[game] == 1 %}
-                    <li id="{{ game }}" class="list-group-item" style="color: blue;">Game Number: {{ game }}, Number of Players: {{ games[game] }}</li>
+                    <li id="{{ game }}" class="list-group-item clearfix" style="color: blue;">Game Number: {{ game }}, Number of Players: {{ games[game] }}
+                        <input gameval='{{ game }}' type="button" class="btn btn-success pull-right" value="Join Game"></input>
+                    </li>
                 {% endif %}
                 {% if games[game] == 2 %}
-                    <li id="{{ game }}" class="list-group-item" style="color: red;">Game Number: {{ game }}, Number of Players: {{ games[game] }}</li>
+                    <li id="{{ game }}" class="list-group-item clearfix" style="color: red;">Game Number: {{ game }}, Number of Players: {{ games[game] }}
+                        <input gameval='{{ game }}' type="button" class="btn btn-default pull-right" value="Spectate"></input>
+                    </li>
                 {% endif %}
             {% endfor %}
         </ul>
@@ -30,21 +36,32 @@
                     success: function(data) {
                         data = JSON.parse(data);
                         for (var i=0; i<data.length; i++){
-                            document.getElementById(i).innerHTML = "Game Number: " + i + ", Number of Players: " + data[i];
+                            el = document.getElementById(i);
+                            el.innerHTML = "Game Number: " + i + ", Number of Players: " + data[i];
                             if (data[i] == 0) {
-                                document.getElementById(i).style.color = "green";
+                                el.style.color = "green";
+                                el.innerHTML += "<input gameval='" + i + "'type='button' class='btn btn-success pull-right' value='Join Game'></input>";
                             } else if(data[i] == 1) {
-                                document.getElementById(i).style.color = "blue";
+                                el.style.color = "blue";
+                                el.innerHTML += "<input gameval='" + i + "'type='button' class='btn btn-success pull-right' value='Join Game'></input>";
                             } else {
-                                document.getElementById(i).style.color = "red";
+                                el.style.color = "red";
+                                el.innerHTML += "<input gameval='" + i + "'type='button' class='btn btn-default pull-right' value='Spectate'></input>";
                             }
                         }
                     }
                 });
             }, 5000);
-            function callBack(data) {
-                console.log(data);
-            }
+            document.addEventListener("click", function(event){
+                console.log(event.target);
+                if (event.target.type == "button"){
+                    if (event.target.value == "Join Game"){
+                        console.log(event.target.getAttribute('gameval'));
+                    } else if (event.target.value == "Spectate"){
+                        console.log(event.target.getAttribute('gameval'));
+                    }
+                }
+            });
         </script>
         <!-- NAVIGATION BAR -->
         <nav class="navbar navbar-inverse">
@@ -54,8 +71,8 @@
                 </div>
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="/">Home</a></li>
-                    <li><a href="/game">Quick Join</a></li>
-                    <li><a href="/about-us">About Us</a></li>
+                    <li><a href="/quick_join">Quick Join</a></li>
+                    <li><a href="/about_us">About Us</a></li>
                     <li><a href="https://github.com/gabrielbessler">Other Projects</a></li>
                 </ul>
             </div>
@@ -68,7 +85,8 @@
                 {{ do_stuff() }}
             </div>
             <form method='post'>
-                <button type='submit' class="btn btn-primary"> Connect to Game </button>
+                <!-- TODO -->
+                <button type='submit' class="btn btn-primary"> Join New Game </button>
             </form>
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
             </div>
