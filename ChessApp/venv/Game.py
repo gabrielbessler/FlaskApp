@@ -27,9 +27,14 @@ class Game():
             display_score = f"White: {get_score[0]} points. Black: {get_score[1]} points."
             move_in1 = [int(test[0]), int(test[1])]
             move_in2 = [int(test[2]), int(test[3])]
-            return self.board.move(move_in1, move_in2) + "<br>" + display_score + "<br><br>" + str(self.board) + render_template('display_board.html', board = self.board.board) + "<br><br>" + render_template("get_move.html")
+            rt_str =  self.board.move(move_in1, move_in2, self.curr_turn) + "<br>Current Move:" + str(self.curr_turn) + "<br>" + display_score + "<br><br>" + str(self.board) + render_template('display_board.html', board = self.board.board) + "<br><br>" + render_template("get_move.html")
+            if self.curr_turn == 0:
+                self.curr_turn = 1
+            else:
+                self.curr_turn = 0
+            return rt_str
         except ValueError as err:
-            return str(f"{err} <br><br>") + str(self.board) + "<br><br>" + self.get_next_move("get_move.html")
+            return str(f"{err} <br><br>") + str(self.board) + "<br><br>" + render_template("get_move.html")
 
     def convert_notation(self, text, mode="chess"):
         '''

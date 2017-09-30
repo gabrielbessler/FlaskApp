@@ -23,7 +23,7 @@ class Board:
             stringBoard += '<br>'
         return stringBoard
 
-    def move(self, currentSquare, nextSquare):
+    def move(self, currentSquare, nextSquare, turn):
         '''
         Takes in two locations. Moves piece from current
         square to next Square and replaces the piece with a zero
@@ -40,6 +40,8 @@ class Board:
             if target != 0:
                 if target.getColor() == piece.getColor():
                     raise ValueError("Cannot Take a Piece of Same Color")
+            if piece.getColor() != turn:
+                raise ValueError("Cannot move your opponent's piece")
             #check if given a piece and a different starting/ending square, it is a valid move
             if self.isValidMove(piece, currentSquare, nextSquare):
                 self.board[currentSquare[0]][currentSquare[1]] = 0
