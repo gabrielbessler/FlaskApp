@@ -1,9 +1,4 @@
-ul {
-    list-style-type: none;
-    padding: 0px;
-    margin: 0px;
-}
-li {
-    margin: 0px;
-    padding: 0px;
+#main-div {
+    margin-left: 0px;
+    margin-top: 10px;
 }

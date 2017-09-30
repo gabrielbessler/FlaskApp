@@ -1,25 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" href= "{{ url_for('static',filename='main.css') }}">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Chess App</title>
     </head>
     <body>
-        <ul>
-            {% for game in range(10) %}
-                {% if games[game] == 0 %}
-                    <li style="color: green;">Game Number: {{ game }}, Number of Players: {{ games[game] }}</li>
-                {% endif %}
-                {% if games[game] == 1 %}
-                <li style="color: blue;">Game Number: {{ game }}, Number of Players: {{ games[game] }}</li>
-                {% endif %}
-                {% if games[game] == 2 %}
-                    <li style="color: red;">Game Number: {{ game }}, Number of Players: {{ games[game] }}</li>
-                {% endif %}
-            {% endfor %}
-        </ul>
-        <form method='post'>
-            <button type='submit'> Connect to Game </button>
-        </form>
-        <script src="main.js"></script>
+        <!-- NAVIGATION BAR -->
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">Gabeb and Tyler's Chess Website</a>
+                </div>
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="/">Home</a></li>
+                    <li><a href="/game">Quick Join</a></li>
+                    <li><a href="/about-us">About Us</a></li>
+                    <li><a href="https://github.com/gabrielbessler">Other Projects</a></li>
+                </ul>
+            </div>
+        </nav>
+        <!--
+            Main game loading
+        -->
+        <div class='container' id="main-div">
+            <ul class="list-group">
+                {% for game in range(10) %}
+                    {% if games[game] == 0 %}
+                        <li class="list-group-item" style="color: green;">Game Number: {{ game }}, Number of Players: {{ games[game] }}</li>
+                    {% endif %}
+                    {% if games[game] == 1 %}
+                    <li class="list-group-item" style="color: blue;">Game Number: {{ game }}, Number of Players: {{ games[game] }}</li>
+                    {% endif %}
+                    {% if games[game] == 2 %}
+                        <li class="list-group-item" style="color: red;">Game Number: {{ game }}, Number of Players: {{ games[game] }}</li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+            <form method='post'>
+                <button type='submit' class="btn btn-primary"> Connect to Game </button>
+            </form>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+            </div>
+        <div class='container'>
+
+        </div>
     </body>
 </html>
