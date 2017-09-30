@@ -1,4 +1,4 @@
-from flask import Flask, request, redirect, abort, render_template
+from flask import Flask, request, redirect, abort, render_template, jsonify
 from Game import Game
 import json
 app = Flask(__name__)
@@ -38,12 +38,17 @@ def get_next_game():
             return game_id
     return -1
 
+@app.route('/get_games', methods=["GET"])
+def get_open_games():
+    '''
+    Gets called every 'x' seconds to check which games are currently open.
+    '''
+    return json.dumps(games)
+
 @app.route('/ajax', methods=["POST", "GET"])
 def get_data():
     data_here = ['1', '2', '3']
     return json.dumps(data_here)
-    #var = request.form['movedata']
-    #return store_games[game_num].make_move(str(var))
 
 @app.route('/game/<int:game_num>', methods=["POST", "GET"])
 def get_game(game_num):
