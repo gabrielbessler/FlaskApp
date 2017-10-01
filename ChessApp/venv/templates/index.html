@@ -31,7 +31,7 @@
         <script>
             setInterval(function() {
                 $.ajax({
-                    type: "GET",
+                    type: "POST",
                     url: '/get_games',
                     success: function(data) {
                         data = JSON.parse(data);
@@ -77,9 +77,7 @@
                 </ul>
             </div>
         </nav>
-        <!--
-            Main game loading
-        -->
+        <!-- Main game loading -->
         <div class='container' id="main-div">
             <div id="stuff">
                 {{ do_stuff() }}

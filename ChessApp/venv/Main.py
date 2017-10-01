@@ -43,17 +43,22 @@ def get_next_game():
 def about_us_page():
     return "Work in Progress"
 
-@app.route('/get_games', methods=["GET"])
+@app.route('/get_games', methods=["POST"])
 def get_open_games():
     '''
     Gets called every 'x' seconds to check which games are currently open.
     '''
     return json.dumps(games)
 
-@app.route('/ajax', methods=["POST", "GET"])
+@app.route('/ajax', methods=["POST"])
 def get_data():
-    data_here = ['1', '2', '3']
-    return json.dumps(data_here)
+    try:
+        #var = request.form['movedata']
+        var = "0601"
+        return json.dumps(store_games[0].make_move(str(var)))
+        return json.dumps(store_games[game_num].make_move(str(var)))
+    except (KeyError):
+        pass
 
 @app.route('/quick_join')
 def quick_join():
@@ -82,7 +87,7 @@ def get_game(game_num):
             if games[game_num] == 2:
                 new_game = Game()
                 store_games[game_num] = new_game
-                return str(store_games[game_num]) + "<br>" + str(store_games[game_num].board) + "<br>" + render_template('get_move.html')
+                return "<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js'></script>" + str(store_games[game_num]) + "<br>" + str(store_games[game_num].board) + "<br>" + render_template('get_move.html')
         return f'This is game number {game_num}'
 
 @app.route('/temp')

@@ -1,10 +1,18 @@
 <br><br>
 <div id="display_board">
-{% for row in range(8) %}
-<div style="clear: left;">
-{% for col in range(8) %}
-{% if (col + row) % 2 == 0 %}<div style="padding-top: 45px; box-sizing: border-box; display:inline; float: left; height: 100px; width: 100px; margin: 0px; background-color: lightgreen; text-align: center;">{{ board[row][col] }}</div>{% endif %}
-{% if (col + row) % 2 == 1 %}<div style="padding-top: 45px; box-sizing: border-box; display:inline; float: left; height: 100px; width: 100px; margin: 0px; background-color: #333333; text-align: center;">{{ board[row][col] }}</div>{% endif %}
-{% endfor %}</div>{% endfor %}
+    {% for row in range(8) %}
+    <div style="clear: left;">
+    {% for col in range(8) %}
+    {% if (col + row) % 2 == 0 %}
+        <div style="padding-top: 45px; box-sizing: border-box; display:inline; float: left; height: 100px; width: 100px; margin: 0px; background-color: lightgreen; text-align: center;">
+            {{ board[row][col] }}
+        </div>
+    {% endif %}
+    {% if (col + row) % 2 == 1 %}
+        <div style="padding-top: 45px; box-sizing: border-box; display:inline; float: left; height: 100px; width: 100px; margin: 0px; background-color: #333333; text-align: center;">
+            {{ board[row][col] }}
+        </div>
+    {% endif %}
+    {% endfor %}</div>{% endfor %}
 </div>
 <br><br><br><br>
