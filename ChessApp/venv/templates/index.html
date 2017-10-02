@@ -1,21 +1,27 @@
 {% extends "page_template.html" %}
 {% block main_body %}
-{% macro do_stuff(a) %}
+{% macro show_games(a) %}
 <ul class="list-group">
     {% for game in range(10) %}
         {% if games[game] == 0 %}
             <li id="{{ game }}" class="list-group-item clearfix" style="color: green;">Game Number: {{ game }}, Number of Players: {{ games[game] }}
-                <input gameval='{{ game }}' type="button" class="btn btn-success pull-right" value="Join Game"></input>
+                <a href="/game/{{ game }}">
+                    <input gameval='{{ game }}' type="button" class="btn btn-success pull-right" value="Join Game"></input>
+                </a>
             </li>
         {% endif %}
         {% if games[game] == 1 %}
             <li id="{{ game }}" class="list-group-item clearfix" style="color: blue;">Game Number: {{ game }}, Number of Players: {{ games[game] }}
-                <input gameval='{{ game }}' type="button" class="btn btn-success pull-right" value="Join Game"></input>
+                <a href="/game/{{ game }}">
+                    <input gameval='{{ game }}' type="button" class="btn btn-success pull-right" value="Join Game"></input>
+                </a>
             </li>
         {% endif %}
         {% if games[game] == 2 %}
             <li id="{{ game }}" class="list-group-item clearfix" style="color: red;">Game Number: {{ game }}, Number of Players: {{ games[game] }}
-                <input gameval='{{ game }}' type="button" class="btn btn-default pull-right" value="Spectate"></input>
+                <a href="/spectate/{{ game }}">
+                    <input gameval='{{ game }}' type="button" class="btn btn-default pull-right" value="Spectate"></input>
+                </a>
             </li>
         {% endif %}
     {% endfor %}
@@ -58,10 +64,9 @@
 <!-- Main game loading -->
 <div class='container' id="main-div">
     <div id="stuff">
-        {{ do_stuff() }}
+        {{ show_games() }}
     </div>
     <form method='post'>
-        <!-- TODO -->
         <button type='submit' class="btn btn-primary"> Join New Game </button>
     </form>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

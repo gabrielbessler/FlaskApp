@@ -1,0 +1,15 @@
+{% extends "page_template.html" %}
+{% block main_body %}
+<script>
+setInterval(function() {
+    $.ajax({
+        type: "POST",
+        url: '/show_game',
+        success: function(data) {
+            data = JSON.parse(data);
+            document.body.innerHTML = data;
+        }
+    });
+}, 5000);
+</script>
+{% endblock %}

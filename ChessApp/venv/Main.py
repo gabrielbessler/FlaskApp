@@ -68,6 +68,17 @@ def quick_join():
     else:
         return redirect("game\\" + str(get_next_game()))
 
+@app.route('/show_game', methods=["POST"])
+def show_game():
+    return json.dump('abc')
+
+@app.route('/spectate/<int:game_num>', methods=["GET"])
+def spectate_game(game_num):
+    '''
+    Allows the user to spectate a given game
+    '''
+    return render_template("spectate_game.html")
+
 @app.route('/game/<int:game_num>', methods=["POST", "GET"])
 def get_game(game_num):
     '''
@@ -87,8 +98,8 @@ def get_game(game_num):
             if games[game_num] == 2:
                 new_game = Game()
                 store_games[game_num] = new_game
-                return render_template('get_move.html', board_repr = str(store_games[game_num]), board_disp = str(store_games[game_num].board))
-        return f'This is game number {game_num}'
+                return render_template('get_move.html', board_repr = str(store_games[game_num]), board_disp = str(store_games[game_num].board), game_num = game_num)
+        return render_template('waiting.html', game_num = game_num)
 
 @app.route('/temp')
 def page_not_found():
