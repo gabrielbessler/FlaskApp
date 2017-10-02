@@ -1,13 +1,18 @@
-from flask import Flask, request, redirect, abort, render_template, jsonify
+from flask import Flask, request, redirect, abort, render_template, jsonify, session
 from Game import Game
 import json
+import os
+
 app = Flask(__name__)
+app.secret_key = os.urandom(24) #generate a random key for sessions
 
 # 2 for ongoing games
 # 1 for games with 1 person waiting
 # 0 otherwise
 games = [0] * 10
+game_players = [[0,0] for i in range(10)] #this will store the user IDs for each game
 store_games = {}
+player_ids = [0]
 
 @app.route('/', methods=["POST", "GET"])
 def main_page():
@@ -79,6 +84,10 @@ def spectate_game(game_num):
     '''
     return render_template("spectate_game.html")
 
+def get_next_id():
+    player_ids[0] += 1
+    return player_ids[0]
+
 @app.route('/game/<int:game_num>', methods=["POST", "GET"])
 def get_game(game_num):
     '''
@@ -93,13 +102,30 @@ def get_game(game_num):
             return "Doing a 404<br>Your last move was: " + str(request.form['movedata'])
             abort(404)
     elif request.method == "GET":
+
         if games[game_num] <= 2:
-            games[game_num] += 1
-            if games[game_num] == 2:
-                new_game = Game()
-                store_games[game_num] = new_game
-                return render_template('get_move.html', board_repr = str(store_games[game_num]), board_disp = str(store_games[game_num].board), game_num = game_num)
-        return render_template('waiting.html', game_num = game_num)
+            if "player_id" in session:
+                # make sure that you are not already in the game
+                if session["player_id"] not in game_players[game_num]:
+                    addNewPlayer(game_num, session["player_id"])
+            else:
+                # create a new session for the user
+                session["player_id"] = get_next_id()
+                addNewPlayer(game_num, session["player_id"])
+
+        if games[game_num] == 2:
+            new_game = Game()
+            store_games[game_num] = new_game
+            return render_template('get_move.html', board_repr = str(store_games[game_num]), board_disp = str(store_games[game_num].board), game_num = game_num)
+        else:
+            return render_template('waiting.html', game_num = game_num)
+
+def addNewPlayer(game_number, play_id):
+    if game_players[game_number][0] == 0:
+        game_players[game_number][0] = play_id
+    else:
+        game_players[game_number][1] = play_id
+    games[game_number] += 1
 
 @app.route('/temp')
 def page_not_found():
