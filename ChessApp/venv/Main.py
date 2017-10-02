@@ -87,7 +87,7 @@ def get_game(game_num):
             if games[game_num] == 2:
                 new_game = Game()
                 store_games[game_num] = new_game
-                return "<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js'></script>" + str(store_games[game_num]) + "<br>" + str(store_games[game_num].board) + "<br>" + render_template('get_move.html')
+                return render_template('get_move.html', board_repr = str(store_games[game_num]), board_disp = str(store_games[game_num].board))
         return f'This is game number {game_num}'
 
 @app.route('/temp')

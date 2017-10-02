@@ -1,95 +1,72 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-        <link rel="stylesheet" type="text/css" href= "{{ url_for('static',filename='main.css') }}">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Chess App</title>
-    </head>
-    <body>
-        {% macro do_stuff(a) %}
-        <ul class="list-group">
-            {% for game in range(10) %}
-                {% if games[game] == 0 %}
-                    <li id="{{ game }}" class="list-group-item clearfix" style="color: green;">Game Number: {{ game }}, Number of Players: {{ games[game] }}
-                        <input gameval='{{ game }}' type="button" class="btn btn-success pull-right" value="Join Game"></input>
-                    </li>
-                {% endif %}
-                {% if games[game] == 1 %}
-                    <li id="{{ game }}" class="list-group-item clearfix" style="color: blue;">Game Number: {{ game }}, Number of Players: {{ games[game] }}
-                        <input gameval='{{ game }}' type="button" class="btn btn-success pull-right" value="Join Game"></input>
-                    </li>
-                {% endif %}
-                {% if games[game] == 2 %}
-                    <li id="{{ game }}" class="list-group-item clearfix" style="color: red;">Game Number: {{ game }}, Number of Players: {{ games[game] }}
-                        <input gameval='{{ game }}' type="button" class="btn btn-default pull-right" value="Spectate"></input>
-                    </li>
-                {% endif %}
-            {% endfor %}
-        </ul>
-        {% endmacro %}
-        <script>
-            setInterval(function() {
-                $.ajax({
-                    type: "POST",
-                    url: '/get_games',
-                    success: function(data) {
-                        data = JSON.parse(data);
-                        for (var i=0; i<data.length; i++){
-                            el = document.getElementById(i);
-                            el.innerHTML = "Game Number: " + i + ", Number of Players: " + data[i];
-                            if (data[i] == 0) {
-                                el.style.color = "green";
-                                el.innerHTML += "<input gameval='" + i + "'type='button' class='btn btn-success pull-right' value='Join Game'></input>";
-                            } else if(data[i] == 1) {
-                                el.style.color = "blue";
-                                el.innerHTML += "<input gameval='" + i + "'type='button' class='btn btn-success pull-right' value='Join Game'></input>";
-                            } else {
-                                el.style.color = "red";
-                                el.innerHTML += "<input gameval='" + i + "'type='button' class='btn btn-default pull-right' value='Spectate'></input>";
-                            }
-                        }
-                    }
-                });
-            }, 5000);
-            document.addEventListener("click", function(event){
-                console.log(event.target);
-                if (event.target.type == "button"){
-                    if (event.target.value == "Join Game"){
-                        console.log(event.target.getAttribute('gameval'));
-                    } else if (event.target.value == "Spectate"){
-                        console.log(event.target.getAttribute('gameval'));
+{% extends "page_template.html" %}
+{% block main_body %}
+{% macro do_stuff(a) %}
+<ul class="list-group">
+    {% for game in range(10) %}
+        {% if games[game] == 0 %}
+            <li id="{{ game }}" class="list-group-item clearfix" style="color: green;">Game Number: {{ game }}, Number of Players: {{ games[game] }}
+                <input gameval='{{ game }}' type="button" class="btn btn-success pull-right" value="Join Game"></input>
+            </li>
+        {% endif %}
+        {% if games[game] == 1 %}
+            <li id="{{ game }}" class="list-group-item clearfix" style="color: blue;">Game Number: {{ game }}, Number of Players: {{ games[game] }}
+                <input gameval='{{ game }}' type="button" class="btn btn-success pull-right" value="Join Game"></input>
+            </li>
+        {% endif %}
+        {% if games[game] == 2 %}
+            <li id="{{ game }}" class="list-group-item clearfix" style="color: red;">Game Number: {{ game }}, Number of Players: {{ games[game] }}
+                <input gameval='{{ game }}' type="button" class="btn btn-default pull-right" value="Spectate"></input>
+            </li>
+        {% endif %}
+    {% endfor %}
+</ul>
+{% endmacro %}
+<script>
+    setInterval(function() {
+        $.ajax({
+            type: "POST",
+            url: '/get_games',
+            success: function(data) {
+                data = JSON.parse(data);
+                for (var i=0; i<data.length; i++){
+                    el = document.getElementById(i);
+                    el.innerHTML = "Game Number: " + i + ", Number of Players: " + data[i];
+                    if (data[i] == 0) {
+                        el.style.color = "green";
+                        el.innerHTML += "<input gameval='" + i + "'type='button' class='btn btn-success pull-right' value='Join Game'></input>";
+                    } else if(data[i] == 1) {
+                        el.style.color = "blue";
+                        el.innerHTML += "<input gameval='" + i + "'type='button' class='btn btn-success pull-right' value='Join Game'></input>";
+                    } else {
+                        el.style.color = "red";
+                        el.innerHTML += "<input gameval='" + i + "'type='button' class='btn btn-default pull-right' value='Spectate'></input>";
                     }
                 }
-            });
-        </script>
-        <!-- NAVIGATION BAR -->
-        <nav class="navbar navbar-inverse">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="#">Gabeb and Tyler's Chess Website</a>
-                </div>
-                <ul class="nav navbar-nav">
-                    <li class="active"><a href="/">Home</a></li>
-                    <li><a href="/quick_join">Quick Join</a></li>
-                    <li><a href="/about_us">About Us</a></li>
-                    <li><a href="https://github.com/gabrielbessler">Other Projects</a></li>
-                </ul>
-            </div>
-        </nav>
-        <!-- Main game loading -->
-        <div class='container' id="main-div">
-            <div id="stuff">
-                {{ do_stuff() }}
-            </div>
-            <form method='post'>
-                <!-- TODO -->
-                <button type='submit' class="btn btn-primary"> Join New Game </button>
-            </form>
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-            </div>
-        <div class='container'>
+            }
+        });
+    }, 5000);
+    document.addEventListener("click", function(event){
+        if (event.target.type == "button"){
+            if (event.target.value == "Join Game"){
+                var game_num = event.target.getAttribute('gameval');
+            } else if (event.target.value == "Spectate"){
+                var game_num = event.target.getAttribute('gameval');
+            }
+        }
+    });
+</script>
+<!-- Main game loading -->
+<div class='container' id="main-div">
+    <div id="stuff">
+        {{ do_stuff() }}
+    </div>
+    <form method='post'>
+        <!-- TODO -->
+        <button type='submit' class="btn btn-primary"> Join New Game </button>
+    </form>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    </div>
+<div class='container'>
 
-        </div>
-    </body>
-</html>
+</div>
+{% endblock %}
