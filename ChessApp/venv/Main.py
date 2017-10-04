@@ -1,7 +1,11 @@
+#!/usr/bin/python
+
 from flask import Flask, request, redirect, abort, render_template, jsonify, session
 from Game import Game
 import json
 import os
+import cgitb
+cgitb.enable()
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24) #generate a random key for sessions
@@ -46,7 +50,7 @@ def get_next_game():
 
 @app.route('/about_us')
 def about_us_page():
-    return "Work in Progress"
+    return render_template('about_us.html')
 
 @app.route('/get_games', methods=["POST"])
 def get_open_games():
@@ -76,6 +80,10 @@ def quick_join():
 @app.route('/show_game', methods=["POST"])
 def show_game():
     return json.dump('abc')
+
+@app.route('/login', methods=["POST"])
+def login():
+    return json.dumps('1')
 
 @app.route('/spectate/<int:game_num>', methods=["GET"])
 def spectate_game(game_num):

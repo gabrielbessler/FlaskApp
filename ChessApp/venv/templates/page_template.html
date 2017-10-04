@@ -7,11 +7,25 @@
         <title>Chess App</title>
     </head>
     <body>
+        <script>
+            function login(){
+                $.ajax({
+                    type: "POST",
+                    url: '/login',
+                    success: function(data) {
+
+                    }
+                });
+            }
+            function create_login() {
+                alert("NOT LOGGING IN NOW")
+            }
+        </script>
         <!-- NAVIGATION BAR -->
-        <nav class="navbar navbar-inverse">
+        <nav class="navbar navbar-inverse navbar-static-top">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="#">Gabeb and Tyler's Chess Website</a>
+                    <a class="navbar-brand" href="/">Gabe's Chess Website</a>
                 </div>
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="/">Home</a></li>
@@ -19,11 +33,44 @@
                     <li><a href="/about_us">About Us</a></li>
                     <li><a href="https://github.com/gabrielbessler">Other Projects</a></li>
                 </ul>
+                <button type="button" class="btn btn-primary navbar-btn navbar-right" data-toggle="modal" data-target="#loginModal" id="loginBtn">Sign In</button>
             </div>
         </nav>
+
+        <!-- Modal -->
+        <div id="loginModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+            <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Log In</h4>
+                        </div>
+                        <div class="modal-body">
+                        <!-- Input fields -->
+                        <input type="text" class="form-control" id="input-field2" value="Username" id="usr">
+                        <input type="password" class="form-control" id="input-field" value="" id="pwd">
+                        <!-- Remember me button -->
+                        <div class="checkbox">
+                            <label><input type="checkbox" value="">Remember Me</label>
+                        </div>
+                        <!-- Log In -->
+                        <button onclick="login()" class="btn btn-success" data-dismiss="modal">Log In</button>
+                        <!-- Register -->
+                        <button onclick="create_login()" type="button" class="btn btn-default" data-dismiss="modal">Register</button>
+                        <!-- Lost Password -->
+                        <a href="/forgot_password">Forgot Password?</a>
+                        </div>
+                        <div class="modal-footer">
+
+                    </div>
+                </div>
+            </div>
+        </div>
         {% block main_body %}
 
         {% endblock %}
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     </body>
 </html>
