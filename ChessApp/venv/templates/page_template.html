@@ -18,7 +18,13 @@
                 });
             }
             function create_login() {
-                alert("NOT LOGGING IN NOW")
+                $.ajax({
+                    type: "GET",
+                    url: '/register',
+                    success: function(data) {
+
+                    }
+                });
             }
         </script>
         <!-- NAVIGATION BAR -->

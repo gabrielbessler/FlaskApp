@@ -55,19 +55,21 @@ def about_us_page():
 @app.route('/get_games', methods=["POST"])
 def get_open_games():
     '''
-    Gets called every 'x' seconds to check which games are currently open.
+    Gets called every x seconds to check which games are currently open.
     '''
     return json.dumps(games)
 
 @app.route('/ajax', methods=["POST"])
 def get_data():
     try:
-        #var = request.form['movedata']
+        # TODO
         var = "0601"
         return json.dumps(store_games[0].make_move(str(var)))
         return json.dumps(store_games[game_num].make_move(str(var)))
     except (KeyError):
         pass
+
+@app.route('/register')
 
 @app.route('/quick_join')
 def quick_join():
@@ -85,7 +87,7 @@ def show_game():
 def login():
     return json.dumps('1')
 
-@app.route('/spectate/<int:game_num>', methods=["GET"])
+@app.route('/spectate/<int:game_num>')
 def spectate_game(game_num):
     '''
     Allows the user to spectate a given game
@@ -110,7 +112,6 @@ def get_game(game_num):
             return "Doing a 404<br>Your last move was: " + str(request.form['movedata'])
             abort(404)
     elif request.method == "GET":
-
         if games[game_num] <= 2:
             if "player_id" in session:
                 # make sure that you are not already in the game
@@ -120,7 +121,6 @@ def get_game(game_num):
                 # create a new session for the user
                 session["player_id"] = get_next_id()
                 addNewPlayer(game_num, session["player_id"])
-
         if games[game_num] == 2:
             new_game = Game()
             store_games[game_num] = new_game
