@@ -57,6 +57,23 @@
                 var game_num = event.target.getAttribute('gameval');
             } else if (event.target.value == "Spectate"){
                 var game_num = event.target.getAttribute('gameval');
+            } else if (event.target.value == "Join New Game") {
+
+                $.ajax({
+                    type: "POST",
+                    url: "/",
+                    success: function(data) {
+                        window.location.href = JSON.parse(data);
+                    }
+                });
+            } else if (event.target.value == "Create New Game") {
+                $.ajax({
+                    type: "POST",
+                    url: "/create_game",
+                    success: function() {
+
+                    }
+                });
             }
         }
     });
@@ -66,11 +83,15 @@
     <div id="stuff">
         {{ show_games() }}
     </div>
-    <form method='post'>
-        <button type='submit' class="btn btn-primary"> Join New Game </button>
-    </form>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    <!-- Implementing Create Game Button -->
+    <div>
+        <input type="button" class="btn btn-primary" value="Join New Game"></input>
+        <input type="button" class="btn btn-primary" value="Create New Game"></input>
     </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
 <div class='container'>
 
 </div>

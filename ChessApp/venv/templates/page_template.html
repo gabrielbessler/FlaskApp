@@ -9,11 +9,15 @@
     <body>
         <script>
             function login(){
+                var login_data = "username, password";
                 $.ajax({
                     type: "POST",
                     url: '/login',
+                    data: {
+                        json: JSON.stringify(login_data)
+                    },
                     success: function(data) {
-
+                        console.log("Here:" +data);
                     }
                 });
             }
