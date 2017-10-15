@@ -2,7 +2,10 @@
 
 from flask import Flask, request, redirect, abort, render_template, jsonify, session, g
 from Game import Game
-import json, os, cgitb, sqlite3
+import json, os, cgitb, sqlite3, time
+
+TEST_MODE = True
+NUM_STARTING_GAMES = 5
 
 cgitb.enable()
 
@@ -11,19 +14,11 @@ app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
 # 2 for ongoing games, 1 for games with 1 person waiting, 0 otherwise
-games = [0] * 10
+games = [0] * NUM_STARTING_GAMES
 #store the user IDs for each game
-game_players = [[0,0] for i in range(10)]
+game_players = [[0,0] for i in range(NUM_STARTING_GAMES)]
 store_games = {}
 player_ids = [0]
-
-#TODO - implement login database
-DATABASE = '/database.db'
-def get_db():
-    '''
-    Implementing SQL to store usernames and passwords
-    '''
-    pass
 
 @app.route('/', methods=["POST", "GET"])
 def main_page():
@@ -32,18 +27,18 @@ def main_page():
     '''
     # If the user requests to join a new game, get the next game available and redirect to URL
     if request.method == "POST":
-        game_value = get_next_game()
-        if game_value == -1:
-            return "Games in progress...please wait..."
+        next_available_game = get_next_game()
+        if next_available_game == -1:
+            return json.dumps("error")
         else:
-            return json.dumps("game\\" + str(get_next_game()))
+            return json.dumps("game\\" + str(next_available_game()))
 
     # Display available games to the user
     display = ""
     for game_index, game_on in enumerate(games):
         display += f"Game {game_index+1}, Available: {bool(not game_on)} <br>"
 
-    return render_template('index.html', games = games)
+    return render_template('index.html', games = games, numberOfGames = len(games))
 
 def get_next_game():
     '''
@@ -54,11 +49,21 @@ def get_next_game():
             return game_id
     return -1
 
-@app.route('/create_game')
+#TODO - implement login database
+DATABASE = '/database.db'
+def get_db():
+    '''
+    Implementing SQL to store usernames and passwords
+    '''
+    pass
+
+@app.route('/create_game', methods=["POST"])
 def create_game():
     '''
     Creates a new empty game that users can join
     '''
+    games.append(0)
+    game_players.append([0,0])
     return "success"
 
 @app.route('/about_us')
@@ -77,11 +82,12 @@ def get_open_games():
 
 @app.route('/ajax', methods=["POST"])
 def get_data():
+    '''
+    '''
     try:
         # TODO
         var = "0601"
         return json.dumps(store_games[0].make_move(str(var)))
-        return json.dumps(store_games[game_num].make_move(str(var)))
     except (KeyError):
         pass
 
@@ -115,6 +121,9 @@ def spectate_game(game_num):
     return render_template("spectate_game.html")
 
 def get_next_id():
+    '''
+    Gets the next ID not currently begin used
+    '''
     player_ids[0] += 1
     return player_ids[0]
 

@@ -2,7 +2,7 @@
 {% block main_body %}
 {% macro show_games(a) %}
 <ul class="list-group">
-    {% for game in range(10) %}
+    {% for game in range(numberOfGames) %}
         {% if games[game] == 0 %}
             <li id="{{ game }}" class="list-group-item clearfix" style="color: green;">Game Number: {{ game }}, Number of Players: {{ games[game] }}
                 <a href="/game/{{ game }}">
@@ -35,17 +35,21 @@
             success: function(data) {
                 data = JSON.parse(data);
                 for (var i=0; i<data.length; i++){
-                    el = document.getElementById(i);
-                    el.innerHTML = "Game Number: " + i + ", Number of Players: " + data[i];
-                    if (data[i] == 0) {
-                        el.style.color = "green";
-                        el.innerHTML += "<input gameval='" + i + "'type='button' class='btn btn-success pull-right' value='Join Game'></input>";
-                    } else if(data[i] == 1) {
-                        el.style.color = "blue";
-                        el.innerHTML += "<input gameval='" + i + "'type='button' class='btn btn-success pull-right' value='Join Game'></input>";
-                    } else {
-                        el.style.color = "red";
-                        el.innerHTML += "<input gameval='" + i + "'type='button' class='btn btn-default pull-right' value='Spectate'></input>";
+                    try {
+                        el = document.getElementById(i);
+                        el.innerHTML = "Game Number: " + i + ", Number of Players: " + data[i];
+                        if (data[i] == 0) {
+                            el.style.color = "green";
+                            el.innerHTML += "<input gameval='" + i + "'type='button' class='btn btn-success pull-right' value='Join Game'></input>";
+                        } else if(data[i] == 1) {
+                            el.style.color = "blue";
+                            el.innerHTML += "<input gameval='" + i + "'type='button' class='btn btn-success pull-right' value='Join Game'></input>";
+                        } else {
+                            el.style.color = "red";
+                            el.innerHTML += "<input gameval='" + i + "'type='button' class='btn btn-default pull-right' value='Spectate'></input>";
+                        }
+                    } catch(e) {
+                        console.error("Game not being displayed");
                     }
                 }
             }
@@ -63,7 +67,12 @@
                     type: "POST",
                     url: "/",
                     success: function(data) {
-                        window.location.href = JSON.parse(data);
+                        data = JSON.parse(data);
+                        if (data == "error") {
+
+                        } else {
+                            window.location.href = data;
+                        }
                     }
                 });
             } else if (event.target.value == "Create New Game") {
