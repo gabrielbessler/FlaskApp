@@ -149,30 +149,34 @@ def get_game(game_num):
             abort(404)
     elif request.method == "GET":
         if games[game_num] <= 2:
-            if "player_id" in session:
-                # make sure that you are not already in the game
-                if session["player_id"] not in game_players[game_num]:
+            if TEST_MODE == False:
+                if "player_id" in session:
+                    # make sure that you are not already in the `
+                    if session["player_id"] not in game_players[game_num]:
+                        addNewPlayer(game_num, session["player_id"])
+                else:
+                    # create a new session for the user
+                    session["player_id"] = get_next_id()
                     addNewPlayer(game_num, session["player_id"])
             else:
-                # create a new session for the user
-                session["player_id"] = get_next_id()
-                addNewPlayer(game_num, session["player_id"])
+                games[game_num] += 1
         if games[game_num] == 2:
+            # TODO: check session here?
             new_game = Game()
             store_games[game_num] = new_game
-            return render_template('get_move.html', board_repr = str(store_games[game_num]), board_disp = str(store_games[game_num].board), game_num = game_num)
+            return render_template('get_move.html', board_repr = str(store_games[game_num]), board_disp = str(store_games[game_num].board), game_num = game_num, somedata=store_games[game_num].board.getRAW())
         else:
             return render_template('waiting.html', game_num = game_num)
 
-def addNewPlayer(game_number, play_id):
+def addNewPlayer(game_num, play_id):
     '''
     Checks if the current user is a new player in the game
     '''
-    if game_players[game_number][0] == 0:
-        game_players[game_number][0] = play_id
+    if game_players[game_num][0] == 0:
+        game_players[game_num][0] = play_id
     else:
-        game_players[game_number][1] = play_id
-    games[game_number] += 1
+        game_players[game_num][1] = play_id
+    games[game_num] += 1
 
 @app.errorhandler(404)
 def page_not_found(e):

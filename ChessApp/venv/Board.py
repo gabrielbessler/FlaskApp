@@ -12,6 +12,21 @@ class Board:
         self.board = []
         self.setInitialState()
 
+    #TODO: fix this
+    def getRAW(self):
+        stringBoard = '['
+        for x in range(8):
+            stringBoard += "["
+            for y in range(8):
+                stringBoard += '"' + str(self.board[x][y]) + '"'
+                if y != 7:
+                    stringBoard += ','
+            stringBoard += "]"
+            if x != 7:
+                stringBoard += ","
+        stringBoard += ']'
+        return stringBoard
+
     def __str__(self):
         '''
         Returns a string representation of the current board

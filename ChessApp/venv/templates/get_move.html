@@ -1,24 +1,29 @@
 {% extends "page_template.html" %}
 {% block main_body %}
+
+    <canvas style="border: 5px solid red;">
+        <h1>HTML5 Canvas Support is Required.</h1>
+    </canvas>
+
     {{ board_repr|safe }}<br>
     {{ board_disp|safe }}<br>
-    <script src="/static/main.js"></script>
-    <script>
-    function submitMove(curr_game) {
-        game_num = {{ game_num }}
-        console.log(game_num);
-        $.ajax({
-            type:"POST",
-            url:'/ajax',
-            success: function(data) {
-                data = JSON.parse(data);
-                document.body.innerHTML = data;
-            }
-        })
-    }
-    </script>
-        <form method='POST'>
+
+    <script src="/static/canvas.js"></script>
+
+    <!-- TEST -->
+    <script src="/static/make_move.js"></script>
+
+    <form method='POST'>
         <input type='text' value='0022' name='movedata'></input>
         <input type="button" value="Make Move Test" onclick="return submitMove(0);" class="btn btn-primary"></input>
     </form>
+
+    <span id="data" mydata="{{ somedata }}"></span>
+
+    <script>
+        var sdata = document.getElementById('data').getAttribute('mydata');
+        updateBoard(JSON.parse(sdata));
+        draw();
+    </script>
+
 {% endblock %}
