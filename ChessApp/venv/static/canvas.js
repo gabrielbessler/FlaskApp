@@ -6,6 +6,37 @@ var c = canvas.getContext("2d");
 var pieces = {};
 var board = [[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]];
 
+var startingCoord = [-1,-1];
+var endingCoord = [-1,-1];
+
+canvas.addEventListener("click", function() {
+
+    row = Math.floor( (event.pageX-5) / 80);
+    col = Math.floor( (event.pageY / 80) ) - 1;
+
+    if (startingCoord[0] != -1 && startingCoord[1] != -1) {
+        endingCoord = [row, col];
+        makeMove(startingCoord, endingCoord);
+    } else {
+    if (board[row][col] != 0) {
+        if (startingCoord[0] == -1 && startingCoord[1] == -1)
+        {
+            startingCoord = [row, col];
+
+        }
+    }
+    }
+});
+
+function makeMove(starting, ending) {
+    board[ending[0]][ending[1]] = board[starting[0]][starting[1]];
+    board[starting[0]][starting[1]] = 0;
+    makeChessBoard();
+    draw();
+    startingCoord = [-1,-1];
+    endingCoord = [-1, -1];
+}
+
 loadImages();
 makeChessBoard();
 
@@ -24,7 +55,6 @@ function loadImages() {
             }
 
         }
-
         imageObject.src = imageList[i];
         var name =  imageList[i].slice(8,-4);
         var c;
@@ -50,6 +80,8 @@ function draw() {
 function updateBoard(input) {
     board = input;
 }
+
+
 
 /**
  * Draws the chess board
