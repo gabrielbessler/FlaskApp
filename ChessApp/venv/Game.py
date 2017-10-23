@@ -8,13 +8,28 @@ class Game():
         Creates a new game.
         '''
         self.board = Board()
-        self.curr_turn = 0
+        self.curr_turn = 1 # white
         self.convertion = {"A": 1, "B": 2, "C": 3, "D": 4, "E": 5, "F": 6, "G": 7, "H": 8}
         self.reverse_convertion = {1:"A", 2:"B", 3:"C", 4:"D", 5:"E", 6:"F", 7:"G", 8:"H"}
 
     def make_move(self, test):
         '''
         '''
+        #TODO: fix
+        try:
+            move_in1 = [int(test[0]), int(test[1])]
+            move_in2 = [int(test[2]), int(test[3])]
+            self.board.move(move_in1, move_in2, self.curr_turn)
+            if self.curr_turn == 0:
+                self.curr_turn = 1
+            else:
+                self.curr_turn = 0
+
+            return self.board.getRAW()
+        except ValueError as err:
+            return -1
+
+        #OLD CODE
         try:
             get_score = self.board.getTotalScore()
             display_score = f"White: {get_score[0]} points. Black: {get_score[1]} points."

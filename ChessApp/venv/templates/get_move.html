@@ -1,19 +1,20 @@
 {% extends "page_template.html" %}
 {% block main_body %}
 
-    <canvas style="border: 5px solid red;">
+    <canvas style="border: 5px solid black; margin-left: 20px; ">
         <h1>HTML5 Canvas Support is Required.</h1>
     </canvas>
 
     {{ board_repr|safe }}<br>
+    <!--
     {{ board_disp|safe }}<br>
+    -->
 
     <script src="/static/canvas.js"></script>
 
-    <!-- TEST -->
     <script src="/static/make_move.js"></script>
 
-    <form method='POST'>
+    <form method='POST' style="margin-left: 20px; margin-top: 10px; ">
         <input type='text' value='0022' name='movedata'></input>
         <input type="button" value="Make Move Test" onclick="return submitMove(0);" class="btn btn-primary"></input>
     </form>

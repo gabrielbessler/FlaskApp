@@ -9,37 +9,62 @@ var board = [[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,
 var startingCoord = [-1,-1];
 var endingCoord = [-1,-1];
 
-canvas.addEventListener("click", function() {
+/*
+ *addClickListener()
+ */
+function addClickListener() {
 
-    row = Math.floor( (event.pageX-5) / 80);
-    col = Math.floor( (event.pageY / 80) ) - 1;
+    canvas.addEventListener("click", function() {
 
-    if (startingCoord[0] != -1 && startingCoord[1] != -1) {
-        endingCoord = [row, col];
-        makeMove(startingCoord, endingCoord);
-    } else {
-    if (board[row][col] != 0) {
-        if (startingCoord[0] == -1 && startingCoord[1] == -1)
-        {
-            startingCoord = [row, col];
+        row = Math.floor( (event.pageX-5) / 80);
+        col = Math.floor( (event.pageY / 80) ) - 1;
 
+        if (startingCoord[0] != -1 && startingCoord[1] != -1) {
+            endingCoord = [row, col];
+            makeMove(startingCoord, endingCoord);
+        } else {
+            if (board[row][col] != 0) {
+                if (startingCoord[0] == -1 && startingCoord[1] == -1)
+                {
+                    startingCoord = [row, col];
+                }
+            }
         }
-    }
-    }
-});
-
-function makeMove(starting, ending) {
-    board[ending[0]][ending[1]] = board[starting[0]][starting[1]];
-    board[starting[0]][starting[1]] = 0;
-    makeChessBoard();
-    draw();
-    startingCoord = [-1,-1];
-    endingCoord = [-1, -1];
+    });
 }
 
+/*
+ *makeMove(starting, ending)
+ */
+function makeMove(starting, ending) {
+    /* TODO: fix this */
+    $.ajax({
+        type:'POST',
+        url:'/make_move',
+        dataType: "json",
+        contentType: 'application/json; charset=UTF-8',
+        data: JSON.stringify(starting + ',' + ending + window.location),
+        success: function(data) {
+            if (data == "-1") {
+                console.log("true")
+            } else {
+                updateBoard(JSON.parse(data));
+                makeChessBoard()
+                draw()
+            }
+            startingCoord = [-1,-1];
+            endingCoord = [-1, -1];
+        }
+    });
+}
+
+addClickListener();
 loadImages();
 makeChessBoard();
 
+/*
+ *loadImages()
+ */
 function loadImages() {
     var imageList = ["/static/bishop_b.png", "/static/bishop_w.png", "/static/king_b.png", "/static/king_w.png", "/static/knight_b.png", "/static/knight_w.png", "/static/pawn_b.png", "/static/pawn_w.png", "/static/queen_b.png", "/static/queen_w.png", "/static/rook_b.png", "/static/rook_w.png"];
     var imageObject;
@@ -67,6 +92,9 @@ function loadImages() {
     }
 }
 
+/*
+ *draw()
+ */
 function draw() {
     for (var row = 0; row < board.length; row++) {
         for (var col = 0; col < board[row]  .length; col++) {
@@ -77,11 +105,12 @@ function draw() {
     }
 }
 
+/*
+ *updateBoard(input)
+ */
 function updateBoard(input) {
     board = input;
 }
-
-
 
 /**
  * Draws the chess board

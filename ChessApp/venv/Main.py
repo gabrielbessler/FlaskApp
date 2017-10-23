@@ -80,6 +80,15 @@ def get_open_games():
     '''
     return json.dumps(games)
 
+@app.route('/make_move', methods=["POST"])
+def get_move():
+    '''
+    '''
+    a = request.get_json()
+    game_num = a[34:]
+    move = a[0] + a[2] + a[4] + a[6]
+    return json.dumps(store_games[int(game_num)].make_move(move))
+
 @app.route('/ajax', methods=["POST"])
 def get_data():
     '''
