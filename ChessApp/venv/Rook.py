@@ -4,6 +4,7 @@ class Rook (Piece):
 
     def __init__(self, color):
         '''
+        Creates a rook object of a given color with the allowed moveset and value 5
         '''
         self.setName("Rook")
         self.setColor(color)
@@ -12,4 +13,7 @@ class Rook (Piece):
         self.setValue(5)
 
     def __str__(self):
+        '''
+        Returns the String representation of the Rook
+        '''
         return f"{self.getName()}({self.getColor()})"

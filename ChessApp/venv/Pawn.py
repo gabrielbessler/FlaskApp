@@ -4,6 +4,7 @@ class Pawn (Piece):
 
     def __init__(self, color):
         '''
+        Creates a Queen object of a given color with the allowed moveset and value 1
         '''
         self.setName("Pawn")
         self.setColor(color)
@@ -12,4 +13,7 @@ class Pawn (Piece):
         self.setValue(1)
 
     def __str__(self):
+        '''
+        Returns a string representation of the pawn of a given color
+        '''
         return f"{self.getName()}({self.getColor()})"

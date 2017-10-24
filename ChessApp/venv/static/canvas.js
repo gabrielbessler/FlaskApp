@@ -9,8 +9,12 @@ var board = [[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,
 var startingCoord = [-1,-1];
 var endingCoord = [-1,-1];
 
-/*
- *addClickListener()
+addClickListener();
+loadImages();
+makeChessBoard();
+
+/**
+ *
  */
 function addClickListener() {
 
@@ -33,8 +37,25 @@ function addClickListener() {
     });
 }
 
-/*
- *makeMove(starting, ending)
+/**
+ *
+ * @param {*} curr_game
+ */
+function submitMove(curr_game) {
+    $.ajax({
+        type:"POST",
+        url:'/ajax',
+        success: function(data) {
+            data = JSON.parse(data);
+            document.body.innerHTML = data;
+        }
+    })
+}
+
+/**
+ *
+ * @param {*} starting
+ * @param {*} ending
  */
 function makeMove(starting, ending) {
     /* TODO: fix this */
@@ -46,7 +67,9 @@ function makeMove(starting, ending) {
         data: JSON.stringify(starting + ',' + ending + window.location),
         success: function(data) {
             if (data == "-1") {
-                console.log("true")
+                console.log("INVALID MOVE");
+            } else if (data == "1") {
+                console.log("YOU LOSE");
             } else {
                 updateBoard(JSON.parse(data));
                 makeChessBoard()
@@ -58,12 +81,8 @@ function makeMove(starting, ending) {
     });
 }
 
-addClickListener();
-loadImages();
-makeChessBoard();
-
-/*
- *loadImages()
+/**
+ *
  */
 function loadImages() {
     var imageList = ["/static/bishop_b.png", "/static/bishop_w.png", "/static/king_b.png", "/static/king_w.png", "/static/knight_b.png", "/static/knight_w.png", "/static/pawn_b.png", "/static/pawn_w.png", "/static/queen_b.png", "/static/queen_w.png", "/static/rook_b.png", "/static/rook_w.png"];
@@ -92,8 +111,8 @@ function loadImages() {
     }
 }
 
-/*
- *draw()
+/**
+ *
  */
 function draw() {
     for (var row = 0; row < board.length; row++) {
@@ -105,15 +124,16 @@ function draw() {
     }
 }
 
-/*
- *updateBoard(input)
+/**
+ *
+ * @param {*} input
  */
 function updateBoard(input) {
     board = input;
 }
 
 /**
- * Draws the chess board
+ *
  */
 function makeChessBoard() {
     for (var i=0; i<8; i++) {

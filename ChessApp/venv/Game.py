@@ -20,11 +20,16 @@ class Game():
             move_in1 = [int(test[0]), int(test[1])]
             move_in2 = [int(test[2]), int(test[3])]
             self.board.move(move_in1, move_in2, self.curr_turn)
+
             if self.curr_turn == 0:
                 self.curr_turn = 1
             else:
                 self.curr_turn = 0
 
+            isMate = self.board.check_for_mate()
+
+            if isMate == True:
+                return 1
             return self.board.getRAW()
         except ValueError as err:
             return -1

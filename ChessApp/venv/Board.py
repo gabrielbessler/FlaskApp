@@ -65,6 +65,21 @@ class Board:
             else:
                 raise ValueError("Move Not in Moveset")
 
+    def check_for_mate(self):
+        '''
+        TODO
+        '''
+        # Check if the king is on the board. If not, it is mate
+        kingCount = 0
+        for row in self.board:
+            for col in row:
+                if 1 == 1:
+                    kingCount += 1
+        if kingCount == 2:
+            return False
+        else:
+            return True
+
     def isValidMove(self, piece, currentSquare, nextSquare):
         '''TODO'''
         #first, we get the allowed moveset from the piece

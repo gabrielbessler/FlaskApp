@@ -4,6 +4,7 @@ from flask import Flask, request, redirect, abort, render_template, jsonify, ses
 from Game import Game
 import json, os, cgitb, sqlite3, time
 
+# TEST_MODE will disable session checking so that games can be started with 1 user
 TEST_MODE = True
 NUM_STARTING_GAMES = 5
 

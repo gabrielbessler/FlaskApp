@@ -1,33 +1,43 @@
+<!--
+    The home page of the website that shows the list of available games,
+    and game features like 'Quick Join' and 'Create New Game'
+-->
+
 {% extends "page_template.html" %}
 {% block main_body %}
+
 {% macro show_games(a) %}
-<ul class="list-group">
-    {% for game in range(numberOfGames) %}
-        {% if games[game] == 0 %}
-            <li id="{{ game }}" class="list-group-item clearfix" style="color: green;">Game Number: {{ game }}, Number of Players: {{ games[game] }}
-                <a href="/game/{{ game }}">
-                    <input gameval='{{ game }}' type="button" class="btn btn-success pull-right" value="Join Game"></input>
-                </a>
-            </li>
-        {% endif %}
-        {% if games[game] == 1 %}
-            <li id="{{ game }}" class="list-group-item clearfix" style="color: blue;">Game Number: {{ game }}, Number of Players: {{ games[game] }}
-                <a href="/game/{{ game }}">
-                    <input gameval='{{ game }}' type="button" class="btn btn-success pull-right" value="Join Game"></input>
-                </a>
-            </li>
-        {% endif %}
-        {% if games[game] == 2 %}
-            <li id="{{ game }}" class="list-group-item clearfix" style="color: red;">Game Number: {{ game }}, Number of Players: {{ games[game] }}
-                <a href="/spectate/{{ game }}">
-                    <input gameval='{{ game }}' type="button" class="btn btn-default pull-right" value="Spectate"></input>
-                </a>
-            </li>
-        {% endif %}
-    {% endfor %}
-</ul>
+    <ul class="list-group">
+        {% for game in range(numberOfGames) %}
+            {% if games[game] == 0 %}
+                <li id="{{ game }}" class="list-group-item clearfix" style="color: green;">Game Number: {{ game }}, Number of Players: {{ games[game] }}
+                    <a href="/game/{{ game }}">
+                        <input gameval='{{ game }}' type="button" class="btn btn-success pull-right" value="Join Game"></input>
+                    </a>
+                </li>
+            {% endif %}
+            {% if games[game] == 1 %}
+                <li id="{{ game }}" class="list-group-item clearfix" style="color: blue;">Game Number: {{ game }}, Number of Players: {{ games[game] }}
+                    <a href="/game/{{ game }}">
+                        <input gameval='{{ game }}' type="button" class="btn btn-success pull-right" value="Join Game"></input>
+                    </a>
+                </li>
+            {% endif %}
+            {% if games[game] == 2 %}
+                <li id="{{ game }}" class="list-group-item clearfix" style="color: red;">Game Number: {{ game }}, Number of Players: {{ games[game] }}
+                    <a href="/spectate/{{ game }}">
+                        <input gameval='{{ game }}' type="button" class="btn btn-default pull-right" value="Spectate"></input>
+                    </a>
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
 {% endmacro %}
+
 <script>
+    /**
+     *
+    */
     setInterval(function() {
         $.ajax({
             type: "POST",
@@ -55,6 +65,10 @@
             }
         });
     }, 5000);
+
+    /**
+     *
+     */
     document.addEventListener("click", function(event){
         if (event.target.type == "button"){
             if (event.target.value == "Join Game"){
@@ -101,7 +115,4 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
-<div class='container'>
-
-</div>
 {% endblock %}

@@ -69,4 +69,7 @@ class Piece:
         self.value = value
 
     def getValue(self):
+        '''
+        Returns the centipawn value of a given piece (1 represents 100 centipawns)
+        '''
         return self.value

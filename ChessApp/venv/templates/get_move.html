@@ -5,22 +5,24 @@
         <h1>HTML5 Canvas Support is Required.</h1>
     </canvas>
 
-    {{ board_repr|safe }}<br>
-    <!--
+    <!-- This displays a text representation of the board (for debugging)
     {{ board_disp|safe }}<br>
     -->
 
+    <!-- Displays the board -->
     <script src="/static/canvas.js"></script>
 
-    <script src="/static/make_move.js"></script>
-
+    <!-- Shows the form for manual move input -->
     <form method='POST' style="margin-left: 20px; margin-top: 10px; ">
         <input type='text' value='0022' name='movedata'></input>
         <input type="button" value="Make Move Test" onclick="return submitMove(0);" class="btn btn-primary"></input>
     </form>
 
+    <!-- Stores the data for the canvas to use -->
     <span id="data" mydata="{{ somedata }}"></span>
 
+    <!-- Onload, get the data store in the span and send it to the canvas -->
+    <!-- TODO: move to canvas.js file -->
     <script>
         var sdata = document.getElementById('data').getAttribute('mydata');
         updateBoard(JSON.parse(sdata));
