@@ -90,6 +90,16 @@ def get_move():
     move = a[0] + a[2] + a[4] + a[6]
     return json.dumps(store_games[int(game_num)].make_move(move))
 
+@app.route('/get_piece_move', methods=["POST"])
+def get_piece_move():
+    '''
+    '''
+    a = request.get_json()
+    startingCoord = a[0] + a[2]
+    gameNum = a[30:]
+    allowedMoves = store_games[int(gameNum)].getAllowedMoves(startingCoord)
+    return json.dumps(allowedMoves)
+
 @app.route('/ajax', methods=["POST"])
 def get_data():
     '''

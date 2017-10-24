@@ -1,8 +1,16 @@
+/* Creating the canvas and getting the context */
 var canvas = document.querySelector('canvas');
 canvas.width = 640;
 canvas.height = 640;
-
 var c = canvas.getContext("2d");
+
+/* Variables for drawing the chess board */
+const SQUARE_WIDTH = 80;
+const SQUARE_HEIGHT = 80;
+var color1 = "#505050";
+var color2 = "#00ff50";
+
+
 var pieces = {};
 var board = [[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]];
 
@@ -31,6 +39,7 @@ function addClickListener() {
                 if (startingCoord[0] == -1 && startingCoord[1] == -1)
                 {
                     startingCoord = [row, col];
+                    getMove(startingCoord);
                 }
             }
         }
@@ -68,6 +77,8 @@ function makeMove(starting, ending) {
         success: function(data) {
             if (data == "-1") {
                 console.log("INVALID MOVE");
+                makeChessBoard();
+                draw();
             } else if (data == "1") {
                 console.log("YOU LOSE");
             } else {
@@ -77,6 +88,31 @@ function makeMove(starting, ending) {
             }
             startingCoord = [-1,-1];
             endingCoord = [-1, -1];
+        }
+    });
+}
+
+/**
+ *
+ * @param {*} starting
+ */
+function getMove(starting) {
+    $.ajax({
+        type:'POST',
+        url:'/get_piece_move',
+        dataType: "json",
+        contentType: 'application/json; charset=UTF-8',
+        data: JSON.stringify(starting + window.location),
+        success: function(data) {
+            if (data.length == 0) {
+                startingCoord = [-1, -1]
+            }
+            for (var i = 0; i < data.length; i++){
+                c.strokeStyle = "#ff00ff";
+                c.beginPath();
+                c.arc(data[i][0]*SQUARE_WIDTH + SQUARE_WIDTH/2, data[i][1]*SQUARE_HEIGHT + SQUARE_HEIGHT/2,20,0,2*Math.PI);
+                c.stroke();
+            }
         }
     });
 }
@@ -136,14 +172,17 @@ function updateBoard(input) {
  *
  */
 function makeChessBoard() {
-    for (var i=0; i<8; i++) {
-        for (var j = 0; j < 8; j++) {
+    // Loop through the entire board
+    for (var i=0; i<board.length; i++) {
+        for (var j = 0; j < board[i].length; j++) {
+            // Create a checkerboard pattern by alternating colors
             if ((i+j) % 2 == 1) {
-                c.fillStyle = "#505050";
+                c.fillStyle = color1;
             } else {
-                c.fillStyle = "#00ff50";
+                c.fillStyle = color2;
             }
-            c.fillRect(i*80, j*80, 80, 80);
+            // Draw a rectangle of the correct width/height
+            c.fillRect(i*SQUARE_WIDTH, j*SQUARE_HEIGHT, SQUARE_WIDTH, SQUARE_HEIGHT);
         }
     }
 }

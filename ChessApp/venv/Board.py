@@ -5,6 +5,7 @@ from Queen import Queen
 from Bishop import Bishop
 from Knight import Knight
 
+
 class Board:
     #Initializes the Board
 
@@ -38,6 +39,95 @@ class Board:
             stringBoard += '<br>'
         return stringBoard
 
+    def getMove(self, coord, turn = -1):
+        '''
+        '''
+        allowedSquares = []
+        # First, we get the piece on the current board
+        piece = self.board[int(coord[0])][int(coord[1])]
+
+        if turn != -1:
+            if piece.getColor() != turn:
+                return []
+
+        allowed_moves = piece.getAllowedMoves()
+        # Then, computed the allowed coordinates
+        for index, val in enumerate(allowed_moves):
+            if index == len(allowed_moves) - 1:
+                center = [0,0]
+                L = []
+                for rownum, row in enumerate(val):
+                    for colnum in range(len(row)):
+                        if val[rownum][colnum] == 0:
+                            center = [rownum, colnum]
+                for rownum, row in enumerate(val):
+                    for colnum in range(len(row)):
+                        if val[rownum][colnum] == 1:
+                            L += [ [colnum-center[1]+int(coord[0]),rownum-center[0] +int(coord[1])] ]
+                        elif val[rownum][colnum] == 3:
+                            if piece.hasMoved == False:
+                                L += [ [colnum-center[1]+int(coord[0]),rownum-center[0] +int(coord[1])] ]
+
+                allowedSquares += self.checkPieces(L, turn)
+
+            else:
+                if val == True:
+                    coordX = int(coord[0])
+                    coordY = int(coord[1])
+                    if index == 0: # up_allowed
+                        L = [ [int(coord[0]), x] for x in range(8) if x != coordY ]
+                        L = self.checkPieces(L, turn)
+                        allowedSquares += L
+                    elif index == 1: #left_allowed
+                        L = [ [x, int(coord[1])] for x in range(8) if x != coordX]
+                        L = self.checkPieces(L, turn)
+                        allowedSquares += L
+                    elif index == 2: #right_allowed
+                        pass
+                    elif index == 3: #down_allowed
+                        pass
+                    elif index == 4: #diag_left
+                        L = [ [coordX-1-x, coordY-1-x] for x in range(min(coordX, coordY))]
+                        L2 = [ [coordX+1+x, coordY+1+x] for x in range(min(7-coordX, 7-coordY) )]
+                        L = self.checkPieces(L, turn)
+                        L2 = self.checkPieces(L2, turn)
+                        allowedSquares += L2
+                        allowedSquares += L
+                    elif index == 5: #diag_right
+                        L = [ [coordX-1-x, coordY+1+x] for x in range(coordX)]
+                        L2 = [ [coordX+1+x, coordY-1-x] for x in range(7-coordX)]
+                        L2 = self.checkPieces(L2, turn)
+                        L = self.checkPieces(L, turn)
+                        allowedSquares += L2
+                        allowedSquares += L
+        return allowedSquares
+
+    def checkPieces(self, L, turn):
+        outL = []
+        for coord in L:
+            try:
+                piece =  self.board[coord[0]][coord[1]]
+                if piece == 0:
+                    outL.append(coord)
+                else:
+                    if piece.getColor() != int(turn):
+                        outL.append(coord)
+                    else:
+                        pass
+            except:
+                pass
+            #try: #TODO
+            #    if self.board[coord[0]][coord[1]] == "0":
+            #        outL +=coord
+            #    elif self.board[coord[0]][coord[1]].getColor() != turn:
+            #        outL += coord
+            #except:
+            #    pass
+        print(outL)
+        return outL
+
+
+
     def move(self, currentSquare, nextSquare, turn):
         '''
         Takes in two locations. Moves piece from current
@@ -61,6 +151,8 @@ class Board:
             if self.isValidMove(piece, currentSquare, nextSquare):
                 self.board[currentSquare[0]][currentSquare[1]] = 0
                 self.board[nextSquare[0]][nextSquare[1]] = piece
+                if hasattr(piece, 'hasMoved'):
+                    piece.hasMoved = True
                 return f"Made Move: {currentSquare, nextSquare} for piece {piece} <br>"
             else:
                 raise ValueError("Move Not in Moveset")
@@ -76,18 +168,20 @@ class Board:
                 if 1 == 1:
                     kingCount += 1
         if kingCount == 2:
-            return False
-        else:
             return True
+        else:
+            return False
 
     def isValidMove(self, piece, currentSquare, nextSquare):
         '''TODO'''
-        #first, we get the allowed moveset from the piece
-        allowed_moves = piece.getAllowedMoves()
+        moveL = self.getMove(currentSquare)
+        if nextSquare in moveL:
+            return True
+        else:
+            return False
         #then, we check the difference between the nextSquare and currentSquare
-        x_diff = nextSquare[0] - currentSquare[0]
-        y_diff = nextSquare[1] - currentSquare[1]
-        return True
+        #x_diff = nextSquare[0] - currentSquare[0]
+        #y_diff = nextSquare[1] - currentSquare[1]
 
     def checkWinner(self):
         '''
