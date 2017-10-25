@@ -32,7 +32,7 @@ def main_page():
         if next_available_game == -1:
             return json.dumps("error")
         else:
-            return json.dumps("game\\" + str(next_available_game()))
+            return json.dumps("game\\" + str(next_available_game))
 
     # Display available games to the user
     display = ""

@@ -6,6 +6,9 @@
 {% extends "page_template.html" %}
 {% block main_body %}
 
+<span id="alertPlaceholder "></span>
+<div id='alert' style="display:none;" class='alert alert-info' role='alert'> No Games available. <button type='button' class='close' data-dismiss='alert'> <span>&times;</span> </button> </div>
+
 {% macro show_games(a) %}
     <ul class="list-group">
         {% for game in range(numberOfGames) %}
@@ -35,6 +38,13 @@
 {% endmacro %}
 
 <script>
+    function createNoGamesAlert() {
+        $('#alert').fadeIn('slow');
+
+        //s = "<div class='alert alert-danger' role='alert'> No Games available. <button type='button' class='close' data-dismiss='alert'> <span>&times;</span> </button> </div>"
+        //$('#alertPlaceholder').append(s);
+    }
+
     /**
      *
     */
@@ -76,13 +86,14 @@
             } else if (event.target.value == "Spectate"){
                 var game_num = event.target.getAttribute('gameval');
             } else if (event.target.value == "Join New Game") {
-
                 $.ajax({
                     type: "POST",
                     url: "/",
                     success: function(data) {
                         data = JSON.parse(data);
                         if (data == "error") {
+                            /* here, we want to trigger some box saying no game is available */
+                            createNoGamesAlert();
 
                         } else {
                             window.location.href = data;
