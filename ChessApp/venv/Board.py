@@ -5,7 +5,6 @@ from Queen import Queen
 from Bishop import Bishop
 from Knight import Knight
 
-
 class Board:
     #Initializes the Board
 
@@ -13,8 +12,10 @@ class Board:
         self.board = []
         self.setInitialState()
 
-    #TODO: fix this
     def getRAW(self):
+        '''
+        TODO - fix this
+        '''
         stringBoard = '['
         for x in range(8):
             stringBoard += "["
@@ -41,18 +42,24 @@ class Board:
 
     def getMove(self, coord, turn = -1):
         '''
+        Gets all of the available squares that the piece at the given input
+        coordinate can move to.
         '''
+        # How we store the squares the piece can move to
         allowedSquares = []
         # First, we get the piece on the current board
         piece = self.board[int(coord[0])][int(coord[1])]
 
+        # Make sure the player is not trying to move a piece of the wrong color
         if turn != -1:
             if piece.getColor() != turn:
                 return []
 
+        # Obtain the moveset for the given piece
         allowed_moves = piece.getAllowedMoves()
-        # Then, computed the allowed coordinates
+        # Then, compute the allowed coordinates
         for index, val in enumerate(allowed_moves):
+
             if index == len(allowed_moves) - 1:
                 center = [0,0]
                 L = []
@@ -65,8 +72,14 @@ class Board:
                         if val[rownum][colnum] == 1:
                             L += [ [colnum-center[1]+int(coord[0]),rownum-center[0] +int(coord[1])] ]
                         elif val[rownum][colnum] == 3:
+                            print(piece)
                             if piece.hasMoved == False:
                                 L += [ [colnum-center[1]+int(coord[0]),rownum-center[0] +int(coord[1])] ]
+                        elif val[rownum][colnum] == 2:
+                            piece2 = self.board[colnum-center[1]+int(coord[0])][rownum-center[0] +int(coord[1])]
+                            if piece2 != 0:
+                                if piece2.getColor() != int(turn):
+                                    L += [ [colnum-center[1]+int(coord[0]),rownum-center[0] +int(coord[1])] ]
 
                 allowedSquares += self.checkPieces(L, turn)
 
@@ -75,11 +88,11 @@ class Board:
                     coordX = int(coord[0])
                     coordY = int(coord[1])
                     if index == 0: # up_allowed
-                        L = [ [int(coord[0]), x] for x in range(8) if x != coordY ]
+                        L = [ [coordX, x] for x in range(8) if x != coordY ]
                         L = self.checkPieces(L, turn)
                         allowedSquares += L
                     elif index == 1: #left_allowed
-                        L = [ [x, int(coord[1])] for x in range(8) if x != coordX]
+                        L = [ [x, coordY] for x in range(8) if x != coordX]
                         L = self.checkPieces(L, turn)
                         allowedSquares += L
                     elif index == 2: #right_allowed
@@ -103,6 +116,9 @@ class Board:
         return allowedSquares
 
     def checkPieces(self, L, turn):
+        '''
+        TODO
+        '''
         outL = []
         for coord in L:
             try:
@@ -116,17 +132,8 @@ class Board:
                         pass
             except:
                 pass
-            #try: #TODO
-            #    if self.board[coord[0]][coord[1]] == "0":
-            #        outL +=coord
-            #    elif self.board[coord[0]][coord[1]].getColor() != turn:
-            #        outL += coord
-            #except:
-            #    pass
-        print(outL)
+
         return outL
-
-
 
     def move(self, currentSquare, nextSquare, turn):
         '''
@@ -173,7 +180,9 @@ class Board:
             return False
 
     def isValidMove(self, piece, currentSquare, nextSquare):
-        '''TODO'''
+        '''
+        TODO
+        '''
         moveL = self.getMove(currentSquare)
         if nextSquare in moveL:
             return True
