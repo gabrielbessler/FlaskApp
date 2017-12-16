@@ -35,11 +35,17 @@ def main_page():
             return json.dumps("game\\" + str(next_available_game))
 
     # Display available games to the user
+    # FOR DEBUGGING
+    '''
     display = ""
     for game_index, game_on in enumerate(games):
         display += f"Game {game_index+1}, Available: {bool(not game_on)} <br>"
 
+    return display
+    '''
+
     return render_template('index.html', games = games, numberOfGames = len(games))
+
 
 def get_next_game():
     '''
@@ -50,6 +56,7 @@ def get_next_game():
             return game_id
     return -1
 
+
 #TODO - implement login database
 DATABASE = '/database.db'
 def get_db():
@@ -57,6 +64,7 @@ def get_db():
     Implementing SQL to store usernames and passwords
     '''
     pass
+
 
 @app.route('/create_game', methods=["POST"])
 def create_game():
@@ -67,6 +75,7 @@ def create_game():
     game_players.append([0,0])
     return "success"
 
+
 @app.route('/about_us')
 def about_us_page():
     '''
@@ -74,12 +83,14 @@ def about_us_page():
     '''
     return render_template('about_us.html')
 
+
 @app.route('/get_games', methods=["POST"])
 def get_open_games():
     '''
     Gets called every x seconds to check which games are currently open.
     '''
     return json.dumps(games)
+
 
 @app.route('/make_move', methods=["POST"])
 def get_move():
@@ -90,6 +101,7 @@ def get_move():
     move = a[0] + a[2] + a[4] + a[6]
     return json.dumps(store_games[int(game_num)].make_move(move))
 
+
 @app.route('/get_piece_move', methods=["POST"])
 def get_piece_move():
     '''
@@ -99,6 +111,7 @@ def get_piece_move():
     gameNum = a[30:]
     allowedMoves = store_games[int(gameNum)].getAllowedMoves(startingCoord)
     return json.dumps(allowedMoves)
+
 
 @app.route('/ajax', methods=["POST"])
 def get_data():
@@ -111,6 +124,7 @@ def get_data():
     except (KeyError):
         pass
 
+
 @app.route('/quick_join')
 def quick_join():
     '''
@@ -122,6 +136,7 @@ def quick_join():
     else:
         return redirect("game\\" + str(get_next_game()))
 
+
 @app.route('/show_game', methods=["POST"])
 def show_game():
     '''
@@ -129,9 +144,11 @@ def show_game():
     '''
     return json.dump('abc')
 
+
 @app.route('/login', methods=["POST"])
 def login(data):
     return json.dumps(data)
+
 
 @app.route('/spectate/<int:game_num>')
 def spectate_game(game_num):
@@ -140,6 +157,7 @@ def spectate_game(game_num):
     '''
     return render_template("spectate_game.html")
 
+
 def get_next_id():
     '''
     Gets the next ID not currently begin used
@@ -147,12 +165,14 @@ def get_next_id():
     player_ids[0] += 1
     return player_ids[0]
 
+
 @app.route('/forgot_password')
 def forgot_pw():
     '''
     Display page for "forgot password" from login screen
     '''
     return render_template('forgot_password.html')
+
 
 @app.route('/game/<int:game_num>', methods=["POST", "GET"])
 def get_game(game_num):
@@ -185,11 +205,12 @@ def get_game(game_num):
                 # TODO: check session here?
                 new_game = Game()
                 store_games[game_num] = new_game
-                return render_template('get_move.html', board_repr = str(store_games[game_num]), board_disp = str(store_games[game_num].board), game_num = game_num, somedata=store_games[game_num].board.getRAW())
+                return render_template('get_move.html', board_repr=str(store_games[game_num]), board_disp=str(store_games[game_num].board), game_num=game_num, somedata=store_games[game_num].board.getRAW())
             else:
-                return render_template('waiting.html', game_num = game_num)
+                return render_template('waiting.html', game_num=game_num)
         else:
             abort(404)
+
 
 def addNewPlayer(game_num, play_id):
     '''
@@ -200,6 +221,7 @@ def addNewPlayer(game_num, play_id):
     else:
         game_players[game_num][1] = play_id
     games[game_num] += 1
+
 
 @app.errorhandler(404)
 def page_not_found(e):

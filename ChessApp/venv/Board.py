@@ -63,23 +63,31 @@ class Board:
             if index == len(allowed_moves) - 1:
                 center = [0,0]
                 L = []
+                coordX = int(coord[0])
+                coordY = int(coord[1])
+
                 for rownum, row in enumerate(val):
                     for colnum in range(len(row)):
                         if val[rownum][colnum] == 0:
                             center = [rownum, colnum]
+
+                centerX = center[1]
+                centerY = center[0]
+
+                print(center)
                 for rownum, row in enumerate(val):
                     for colnum in range(len(row)):
                         if val[rownum][colnum] == 1:
-                            L += [ [colnum-center[1]+int(coord[0]),rownum-center[0] +int(coord[1])] ]
+                            L += [ [colnum-centerX+coordX, rownum-centerY+coordY] ]
                         elif val[rownum][colnum] == 3:
-                            print(piece)
                             if piece.hasMoved == False:
-                                L += [ [colnum-center[1]+int(coord[0]),rownum-center[0] +int(coord[1])] ]
+                                L += [ [colnum-centerX+coordX, rownum-centerY+coordY] ]
                         elif val[rownum][colnum] == 2:
-                            piece2 = self.board[colnum-center[1]+int(coord[0])][rownum-center[0] +int(coord[1])]
+                            print( colnum, rownum )
+                            piece2 = self.board[colnum-centerX+coordX][rownum-centerY+coordY]
                             if piece2 != 0:
                                 if piece2.getColor() != int(turn):
-                                    L += [ [colnum-center[1]+int(coord[0]),rownum-center[0] +int(coord[1])] ]
+                                    L += [ [colnum-centerX+coordX, rownum-centerY+coordY] ]
 
                 allowedSquares += self.checkPieces(L, turn)
 
@@ -87,18 +95,30 @@ class Board:
                 if val == True:
                     coordX = int(coord[0])
                     coordY = int(coord[1])
-                    if index == 0: # up_allowed
-                        L = [ [coordX, x] for x in range(8) if x != coordY ]
+                     # up_allowed
+                    if index == 0:
+                        L = []
+                        for x in range(coordY+1, 8):
+                            if x != coordY:
+                                piece = self.board[coordX][x]
                         L = self.checkPieces(L, turn)
                         allowedSquares += L
-                    elif index == 1: #left_allowed
+                    #left_allowed
+                    elif index == 1:
                         L = [ [x, coordY] for x in range(8) if x != coordX]
                         L = self.checkPieces(L, turn)
                         allowedSquares += L
-                    elif index == 2: #right_allowed
+                    #right_allowed
+                    elif index == 2:
                         pass
-                    elif index == 3: #down_allowed
-                        pass
+                    #down_allowed
+                    elif index == 3:
+                        L = []
+                        for x in range(0, coordY):
+                            if x != coordY:
+                                L.append([coordX, x])
+                        L = self.checkPieces(L, turn)
+                        allowedSquares += L
                     elif index == 4: #diag_left
                         L = [ [coordX-1-x, coordY-1-x] for x in range(min(coordX, coordY))]
                         L2 = [ [coordX+1+x, coordY+1+x] for x in range(min(7-coordX, 7-coordY) )]
@@ -115,9 +135,19 @@ class Board:
                         allowedSquares += L
         return allowedSquares
 
+    def isPiece(self, coord):
+        '''
+        TODO: use this
+        '''
+        piece =  self.board[coord[0]][coord[1]]
+        if piece == 0:
+            return False
+        else:
+            return True
+
     def checkPieces(self, L, turn):
         '''
-        TODO
+        Given a set of available moves, removes all of the pieces that are of the same color as your piece
         '''
         outL = []
         for coord in L:
@@ -205,7 +235,6 @@ class Board:
         if length(kingList) == 1:
             return kingList[0].getColor()
         pass
-
 
     def getBoard(self):
         '''

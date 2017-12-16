@@ -1,6 +1,8 @@
 from Board import Board
 from flask import render_template
 
+DEBUG_MODE = False
+
 class Game():
 
     def __init__(self):
@@ -14,16 +16,22 @@ class Game():
 
     def getAllowedMoves(self, coord):
         '''
+        Returns a list representing the set of allowed moves for the piece at a given coordinate
         '''
         return self.board.getMove(coord, self.curr_turn)
 
-    def make_move(self, test):
+    def make_move(self, coord):
         '''
+        Given a String the form 'abcd' where
+        (a,b) is the starting coordinate and
+        (c,d) is the ending coordinate,
+
+        Make a move in the board if the move is valid.
         '''
         #TODO: fix
         try:
-            move_in1 = [int(test[0]), int(test[1])]
-            move_in2 = [int(test[2]), int(test[3])]
+            move_in1 = [int(coord[0]), int(coord[1])]
+            move_in2 = [int(coord[2]), int(coord[3])]
             self.board.move(move_in1, move_in2, self.curr_turn)
 
             if self.curr_turn == 0:
@@ -37,6 +45,8 @@ class Game():
                 return 1
             return self.board.getRAW()
         except ValueError as err:
+            if DEBUG_MODE:
+                return str(f"{err} <br><br>") + str(self.board) + "<br><br>" + render_template("get_move.html")
             return -1
 
         #OLD CODE
