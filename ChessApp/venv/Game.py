@@ -1,11 +1,13 @@
 from Board import Board
 from flask import render_template
+import random
+import math
 
 DEBUG_MODE = False
 
 class Game():
 
-    def __init__(self):
+    def __init__(self, ai_mode = False):
         '''
         Creates a new game.
         '''
@@ -13,6 +15,16 @@ class Game():
         self.curr_turn = 1 # white
         self.convertion = {"A": 1, "B": 2, "C": 3, "D": 4, "E": 5, "F": 6, "G": 7, "H": 8}
         self.reverse_convertion = {1:"A", 2:"B", 3:"C", 4:"D", 5:"E", 6:"F", 7:"G", 8:"H"}
+
+        self.ai_mode = ai_mode
+        if (self.ai_mode):
+            start_ai()
+
+    def start_ai(self):
+        '''
+        '''
+        num = random.randint(0,1)
+        self.engine = AI(num, 5)
 
     def getAllowedMoves(self, coord):
         '''

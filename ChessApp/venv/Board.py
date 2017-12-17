@@ -198,9 +198,13 @@ class Board:
                 raise ValueError("Move Not in Moveset")
 
     def check_for_mate(self):
+        ''' Looks at the current board state and returns True if there
+        is a checkmate
         '''
-        TODO
-        '''
+
+        # TODO: First, check if the king is in check
+        # If the king is in check, check if it has any available moves
+
         # Check if the king is on the board. If not, it is mate
         kingCount = 0
         for row in self.board:

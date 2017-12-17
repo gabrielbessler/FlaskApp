@@ -107,7 +107,8 @@ def get_open_games():
 
 @app.route('/make_move', methods=["POST"])
 def get_move():
-    '''
+    ''' Get movedata from AJAX request and make the move for the player
+        Request is sent when player clicks on a valid square on the board
     '''
     a = request.get_json()
     game_num = a[34:]
@@ -135,13 +136,12 @@ def get_data():
         # TODO: test this to make sure it's working with the game number
         request_data = request.get_json()
         print(request_data)
-        return 0
-        # return json.dumps(store_games[0].make_move(move_data))
+        return json.dumps(store_games[0].make_move(move_data))
     except (KeyError):
         pass
 
 
-@app.route('/quick_join')
+@app.route('/   ')
 def quick_join():
     '''
     Allows user to join the next available game
