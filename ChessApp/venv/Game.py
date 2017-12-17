@@ -71,12 +71,12 @@ class Game():
             text (chess) a4e7
         Output: A string representing the same move but in the other mode.
         '''
-        if mode=="chess":
+        if mode == "chess":
             if text[0] in self.reverse_convertion and text[2] in self.reverse_convertion:
                 output_string = self.convertion[text[0]] + text[1] + self.convert_notation[text[2]] + text[3]
             else:
                 return "Not a valid moveset"
-        elif mode=="coordinates":
+        elif mode == "coordinates":
             if text[0] in self.convertion and text[2] in self.convertion:
                 output_string = self.convertion[text[0]] + text[1] + self.convertion[text[2]] + text[3]
             else:

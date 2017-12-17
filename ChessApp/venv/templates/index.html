@@ -7,7 +7,11 @@
 {% block main_body %}
 
 <span id="alertPlaceholder "></span>
+
 <div id='alert' style="display:none;" class='alert alert-info' role='alert'> No Games available. <button type='button' class='close' data-dismiss='alert'> <span>&times;</span> </button> </div>
+<div id='errorAlert' style="display:none;" class='alert alert-info' role='alert'> An Error has Occurred. <button type='button' class='close' data-dismiss='alert'> <span>&times;</span> </button> </div>
+<div id='gameCreatedAlert' style="display:none;" class='alert alert-info' role='alert'> New Game Created <button type='button' class='close' data-dismiss='alert'> <span>&times;</span> </button> </div>
+
 <span id="numGames" data="{{numberOfGames}}"></span>
 
 {% macro show_games(a) %}
@@ -38,85 +42,6 @@
     </ul>
 {% endmacro %}
 
-<script>
-    /**
-     *
-     */
-    function createNoGamesAlert() {
-        $('#alert').fadeIn('slow');
-    }
-
-    /**
-     *
-    */
-    setInterval(function() {
-        $.ajax({
-            type: "POST",
-            url: '/get_games',
-            success: function(data) {
-                data = JSON.parse(data);
-                // data.length to display all, but will cause error since we only
-                // have numGame slots available
-                for (var i=0; i < document.getElementById("numGames").getAttribute('data'); i++){
-                    try {
-                        el = document.getElementById(i);
-                        el.innerHTML = "Game Number: " + i + ", Number of Players: " + data[i];
-                        if (data[i] == 0) {
-                            el.style.color = "green";
-                            el.innerHTML += "<input gameval='" + i + "'type='button' class='btn btn-success pull-right' value='Join Game'></input>";
-                        } else if(data[i] == 1) {
-                            el.style.color = "blue";
-                            el.innerHTML += "<input gameval='" + i + "'type='button' class='btn btn-success pull-right' value='Join Game'></input>";
-                        } else {
-                            el.style.color = "red";
-                            el.innerHTML += "<input gameval='" + i + "'type='button' class='btn btn-default pull-right' value='Spectate'></input>";
-                        }
-                    } catch(e) {
-                        console.error("Game data not available");
-                    }
-                }
-            }
-        });
-    }, 5000);
-
-    /**
-     *
-     */
-    document.addEventListener("click", function(event){
-        if (event.target.type == "button"){
-            if (event.target.value == "Join Game"){
-                var game_num = event.target.getAttribute('gameval');
-            } else if (event.target.value == "Spectate"){
-                var game_num = event.target.getAttribute('gameval');
-            } else if (event.target.value == "Join New Game") {
-                $.ajax({
-                    type: "POST",
-                    url: "/",
-                    success: function(data) {
-                        data = JSON.parse(data);
-                        if (data == "error") {
-                            /* here, we want to trigger some box saying no game is available */
-                            createNoGamesAlert();
-
-                        } else {
-                            window.location.href = data;
-                        }
-                    }
-                });
-            } else if (event.target.value == "Create New Game") {
-                $.ajax({
-                    type: "POST",
-                    url: "/create_game",
-                    success: function() {
-
-                    }
-                });
-            }
-        }
-    });
-
-
-</script>
 <!-- Main game loading -->
 <div class='container' id="main-div">
     <div id="stuff">
@@ -130,5 +55,7 @@
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="/static/canvas.js"></script>
+
 
 {% endblock %}

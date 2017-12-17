@@ -51,9 +51,13 @@ function addClickListener() {
  * @param {*} curr_game
  */
 function submitMove(curr_game) {
+    currMove = document.getElementById("manual_in").value;
     $.ajax({
         type:"POST",
         url:'/ajax',
+        dataType: "json",
+        contentType: 'application/json; charset=UTF-8',
+        data: JSON.stringify({"move": currMove, "gamenum": 0}),
         success: function(data) {
             data = JSON.parse(data);
             document.body.innerHTML = data;

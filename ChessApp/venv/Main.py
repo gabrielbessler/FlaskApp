@@ -2,31 +2,39 @@
 
 from flask import Flask, request, redirect, abort, render_template, jsonify, session, g
 from Game import Game
-import json, os, cgitb, sqlite3, time
-
-# TEST_MODE will disable session checking so that games can be started with 1 user
-TEST_MODE = True
-NUM_STARTING_GAMES = 5
+import json
+import os
+import cgitb
+import sqlite3
+import time
 
 cgitb.enable()
 
 app = Flask(__name__)
-#generate a random key for user sessions
+# Generate a random key for user sessions
 app.secret_key = os.urandom(24)
+
+# TEST_MODE will disable session checking so that games can be started with 1 user
+TEST_MODE = True
+# Debug mode will display useful data
+DEBUG_MODE = False
+NUM_STARTING_GAMES = 5
 
 # 2 for ongoing games, 1 for games with 1 person waiting, 0 otherwise
 games = [0] * NUM_STARTING_GAMES
-#store the user IDs for each game
-game_players = [[0,0] for i in range(NUM_STARTING_GAMES)]
+# Store the user IDs for each game
+game_players = [[0, 0] for i in range(NUM_STARTING_GAMES)]
 store_games = {}
 player_ids = [0]
+
 
 @app.route('/', methods=["POST", "GET"])
 def main_page():
     '''
     Handles the main page for the chess web application
     '''
-    # If the user requests to join a new game, get the next game available and redirect to URL
+    # If the user requests to join a new game, get the next game available
+    # and redirect to URL
     if request.method == "POST":
         next_available_game = get_next_game()
         if next_available_game == -1:
@@ -35,16 +43,20 @@ def main_page():
             return json.dumps("game\\" + str(next_available_game))
 
     # Display available games to the user
-    # FOR DEBUGGING
+    # If DEBUG MODE is ON, display the raw data without any styling
+    if DEBUG_MODE:
+        return display_games_available_RAW()
+    else:
+        return render_template('index.html', games=games, numberOfGames=len(games))
+
+
+def display_games_available_RAW():
+    ''' Displays a list of the games currently available in raw text format
     '''
     display = ""
     for game_index, game_on in enumerate(games):
         display += f"Game {game_index+1}, Available: {bool(not game_on)} <br>"
-
     return display
-    '''
-
-    return render_template('index.html', games = games, numberOfGames = len(games))
 
 
 def get_next_game():
@@ -57,8 +69,6 @@ def get_next_game():
     return -1
 
 
-#TODO - implement login database
-DATABASE = '/database.db'
 def get_db():
     '''
     Implementing SQL to store usernames and passwords
@@ -71,9 +81,12 @@ def create_game():
     '''
     Creates a new empty game that users can join
     '''
-    games.append(0)
-    game_players.append([0,0])
-    return "success"
+    try:
+        games.append(0)
+        game_players.append([0, 0])
+        return "success"
+    except:
+        return "error"
 
 
 @app.route('/about_us')
@@ -104,11 +117,12 @@ def get_move():
 
 @app.route('/get_piece_move', methods=["POST"])
 def get_piece_move():
+    ''' Runs when the user submits a requests to move a piece.
+    Obtains movedata as JSON from AJAX request and makes the corresponding move
     '''
-    '''
-    a = request.get_json()
-    startingCoord = a[0] + a[2]
-    gameNum = a[30:]
+    move_data = request.get_json()
+    startingCoord = move_data[0] + move_data[2]
+    gameNum = move_data[30:]
     allowedMoves = store_games[int(gameNum)].getAllowedMoves(startingCoord)
     return json.dumps(allowedMoves)
 
@@ -118,9 +132,11 @@ def get_data():
     '''
     '''
     try:
-        # TODO
-        var = "0601"
-        return json.dumps(store_games[0].make_move(str(var)))
+        # TODO: test this to make sure it's working with the game number
+        request_data = request.get_json()
+        print(request_data)
+        return 0
+        # return json.dumps(store_games[0].make_move(move_data))
     except (KeyError):
         pass
 

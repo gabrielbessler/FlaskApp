@@ -5,16 +5,20 @@ from Queen import Queen
 from Bishop import Bishop
 from Knight import Knight
 
+
 class Board:
     #Initializes the Board
 
     def __init__(self):
+        '''
+        Sets up all of the pieces that are initially on the board
+        when the game starts
+        '''
         self.board = []
         self.setInitialState()
 
     def getRAW(self):
-        '''
-        TODO - fix this
+        ''' Get the raw data from the board to send to the user
         '''
         stringBoard = '['
         for x in range(8):
@@ -32,6 +36,7 @@ class Board:
     def __str__(self):
         '''
         Returns a string representation of the current board
+        Used for debugging
         '''
         stringBoard = ''
         for x in range(8):
@@ -40,7 +45,7 @@ class Board:
             stringBoard += '<br>'
         return stringBoard
 
-    def getMove(self, coord, turn = -1):
+    def getMove(self, coord, turn=-1):
         '''
         Gets all of the available squares that the piece at the given input
         coordinate can move to.
@@ -74,7 +79,6 @@ class Board:
                 centerX = center[1]
                 centerY = center[0]
 
-                print(center)
                 for rownum, row in enumerate(val):
                     for colnum in range(len(row)):
                         if val[rownum][colnum] == 1:
@@ -83,7 +87,6 @@ class Board:
                             if piece.hasMoved == False:
                                 L += [ [colnum-centerX+coordX, rownum-centerY+coordY] ]
                         elif val[rownum][colnum] == 2:
-                            print( colnum, rownum )
                             piece2 = self.board[colnum-centerX+coordX][rownum-centerY+coordY]
                             if piece2 != 0:
                                 if piece2.getColor() != int(turn):
