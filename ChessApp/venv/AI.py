@@ -1,8 +1,9 @@
 import time
 
+
 class AI(Game):
 
-    def __init__(self, color = 5, move_time = 5):
+    def __init__(self, color=5, move_time=5):
         ''' Creates the new AI object that will be stored in the game
         '''
         # One mode limits the amount of time the engine can spend on
@@ -15,7 +16,6 @@ class AI(Game):
         # The keys are board data and the values are the best move
         self.openings = {}
         self.color = color
-
 
     def get_next_move(self, board_data):
         ''' Given the data about the board, the AI will run a minimax

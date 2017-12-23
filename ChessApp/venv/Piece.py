@@ -13,9 +13,9 @@ class Piece:
         self.down_allowed = False
         self.diag_left = False
         self.diag_right = False
-        self.move_set = [[0, 0, 0],   \
-                        [0, 0, 0],   \
-                        [0, 0, 0]]
+        self.move_set = [[0, 0, 0],
+                         [0, 0, 0],
+                         [0, 0, 0]]
 
     def getName(self):
         '''
@@ -38,13 +38,15 @@ class Piece:
         '''
         return self.color
 
-    def setColor(self, color = 0):
+    def setColor(self, color=0):
         '''
         Sets the color of the piece (0 for white and 1 for black)
         '''
         self.color = color
 
-    def setMoves(self, upAllowed = False, leftAllowed = False, rightAllowed = False, downAllowed = False, diagLeft = False, diagRight = False, moveSet = []):
+    def setMoves(self, upAllowed=False, leftAllowed=False, rightAllowed=False,
+                 downAllowed=False, diagLeft=False, diagRight=False,
+                 moveSet=[]):
         '''
         Gets the list of squares a piece is allowed to go to relative to itself
         '''
@@ -60,7 +62,9 @@ class Piece:
         '''
         Returns a list of the moves a particular piece is allowed to make
         '''
-        return [self.up_allowed, self.left_allowed, self.right_allowed, self.down_allowed, self.diag_left, self.diag_right, self.move_set]
+        return [self.up_allowed, self.left_allowed, self.right_allowed,
+                self.down_allowed, self.diag_left, self.diag_right,
+                self.move_set]
 
     def setValue(self, value):
         '''
@@ -70,6 +74,7 @@ class Piece:
 
     def getValue(self):
         '''
-        Returns the centipawn value of a given piece (1 represents 100 centipawns)
+        Returns the centipawn value of a given piece
+        (1 represents 100 centipawns)
         '''
         return self.value

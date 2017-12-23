@@ -7,8 +7,6 @@ from Knight import Knight
 
 
 class Board:
-    #Initializes the Board
-
     def __init__(self):
         '''
         Sets up all of the pieces that are initially on the board
@@ -66,7 +64,7 @@ class Board:
         for index, val in enumerate(allowed_moves):
 
             if index == len(allowed_moves) - 1:
-                center = [0,0]
+                center = [0, 0]
                 L = []
                 coordX = int(coord[0])
                 coordY = int(coord[1])
@@ -82,23 +80,28 @@ class Board:
                 for rownum, row in enumerate(val):
                     for colnum in range(len(row)):
                         if val[rownum][colnum] == 1:
-                            L += [ [colnum-centerX+coordX, rownum-centerY+coordY] ]
+                            L += [[colnum-centerX+coordX,
+                                  rownum-centerY+coordY]]
                         elif val[rownum][colnum] == 3:
-                            if piece.hasMoved == False:
-                                L += [ [colnum-centerX+coordX, rownum-centerY+coordY] ]
+                            if not piece.hasMoved:
+                                L += [[colnum-centerX+coordX,
+                                      rownum-centerY+coordY]]
                         elif val[rownum][colnum] == 2:
-                            piece2 = self.board[colnum-centerX+coordX][rownum-centerY+coordY]
+                            pos1 = colnum-centerX+coordX
+                            pos2 = rownum-centerY+coordY
+                            piece2 = self.board[pos1][pos2]
                             if piece2 != 0:
                                 if piece2.getColor() != int(turn):
-                                    L += [ [colnum-centerX+coordX, rownum-centerY+coordY] ]
+                                    L += [[colnum-centerX+coordX,
+                                          rownum-centerY+coordY]]
 
                 allowedSquares += self.checkPieces(L, turn)
 
             else:
-                if val == True:
+                if val:
                     coordX = int(coord[0])
                     coordY = int(coord[1])
-                     # up_allowed
+                    # up_allowed
                     if index == 0:
                         L = []
                         for x in range(coordY+1, 8):
@@ -106,15 +109,15 @@ class Board:
                                 piece = self.board[coordX][x]
                         L = self.checkPieces(L, turn)
                         allowedSquares += L
-                    #left_allowed
+                    # left_allowed
                     elif index == 1:
-                        L = [ [x, coordY] for x in range(8) if x != coordX]
+                        L = [[x, coordY] for x in range(8) if x != coordX]
                         L = self.checkPieces(L, turn)
                         allowedSquares += L
-                    #right_allowed
+                    # right_allowed
                     elif index == 2:
                         pass
-                    #down_allowed
+                    # down_allowed
                     elif index == 3:
                         L = []
                         for x in range(0, coordY):
@@ -122,16 +125,19 @@ class Board:
                                 L.append([coordX, x])
                         L = self.checkPieces(L, turn)
                         allowedSquares += L
-                    elif index == 4: #diag_left
-                        L = [ [coordX-1-x, coordY-1-x] for x in range(min(coordX, coordY))]
-                        L2 = [ [coordX+1+x, coordY+1+x] for x in range(min(7-coordX, 7-coordY) )]
+                    elif index == 4:  # diag_left
+                        L = [[coordX-1-x, coordY-1-x] for x in
+                             range(min(coordX, coordY))]
+                        L2 = [[coordX+1+x, coordY+1+x] for x in
+                              range(min(7-coordX, 7-coordY))]
                         L = self.checkPieces(L, turn)
                         L2 = self.checkPieces(L2, turn)
                         allowedSquares += L2
                         allowedSquares += L
-                    elif index == 5: #diag_right
-                        L = [ [coordX-1-x, coordY+1+x] for x in range(coordX)]
-                        L2 = [ [coordX+1+x, coordY-1-x] for x in range(7-coordX)]
+                    elif index == 5:  # diag_right
+                        L = [[coordX-1-x, coordY+1+x] for x in range(coordX)]
+                        L2 = [[coordX+1+x, coordY-1-x] for x in
+                              range(7-coordX)]
                         L2 = self.checkPieces(L2, turn)
                         L = self.checkPieces(L, turn)
                         allowedSquares += L2
@@ -142,20 +148,20 @@ class Board:
         '''
         TODO: use this
         '''
-        piece =  self.board[coord[0]][coord[1]]
+        piece = self.board[coord[0]][coord[1]]
         if piece == 0:
             return False
-        else:
-            return True
+        return True
 
     def checkPieces(self, L, turn):
         '''
-        Given a set of available moves, removes all of the pieces that are of the same color as your piece
+        Given a set of available moves, removes all of the pieces that are of
+        the same color as your piece
         '''
         outL = []
         for coord in L:
             try:
-                piece =  self.board[coord[0]][coord[1]]
+                piece = self.board[coord[0]][coord[1]]
                 if piece == 0:
                     outL.append(coord)
                 else:
@@ -176,7 +182,8 @@ class Board:
         piece = self.board[currentSquare[0]][currentSquare[1]]
         target = self.board[nextSquare[0]][nextSquare[1]]
 
-        #if we try to move an empty square or move a piece no squares, or on top of a piece of our own color
+        # if we try to move an empty square or move a piece no squares,
+        #  or on top of a piece of our own color
         if piece == 0:
             raise ValueError("No Piece Selected")
         if currentSquare == nextSquare:
@@ -187,13 +194,15 @@ class Board:
                     raise ValueError("Cannot Take a Piece of Same Color")
             if piece.getColor() != turn:
                 raise ValueError("Cannot move your opponent's piece")
-            #check if given a piece and a different starting/ending square, it is a valid move
+            # check if given a piece and a different starting/ending square,
+            # it is a valid move
             if self.isValidMove(piece, currentSquare, nextSquare):
                 self.board[currentSquare[0]][currentSquare[1]] = 0
                 self.board[nextSquare[0]][nextSquare[1]] = piece
                 if hasattr(piece, 'hasMoved'):
                     piece.hasMoved = True
-                return f"Made Move: {currentSquare, nextSquare} for piece {piece} <br>"
+                return f"Made Move: {currentSquare, nextSquare} \
+                for piece {piece} <br>"
             else:
                 raise ValueError("Move Not in Moveset")
 
@@ -223,11 +232,12 @@ class Board:
         moveL = self.getMove(currentSquare)
         if nextSquare in moveL:
             return True
-        else:
-            return False
-        #then, we check the difference between the nextSquare and currentSquare
-        #x_diff = nextSquare[0] - currentSquare[0]
-        #y_diff = nextSquare[1] - currentSquare[1]
+        return False
+
+        # then, we check the difference between the nextSquare and
+        # currentSquare
+        # x_diff = nextSquare[0] - currentSquare[0]
+        # y_diff = nextSquare[1] - currentSquare[1]
 
     def checkWinner(self):
         '''

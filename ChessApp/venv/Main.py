@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
-from flask import Flask, request, redirect, abort, render_template, jsonify, session, g
+from flask import Flask, request, redirect, abort, render_template, jsonify
+from flask import session, g
 from Game import Game
 import json
 import os
@@ -14,7 +15,8 @@ app = Flask(__name__)
 # Generate a random key for user sessions
 app.secret_key = os.urandom(24)
 
-# TEST_MODE will disable session checking so that games can be started with 1 user
+# TEST_MODE will disable session checking so that games can be started
+#  with 1 user
 TEST_MODE = True
 # Debug mode will display useful data
 DEBUG_MODE = False
@@ -47,7 +49,8 @@ def main_page():
     if DEBUG_MODE:
         return display_games_available_RAW()
     else:
-        return render_template('index.html', games=games, numberOfGames=len(games))
+        return render_template('index.html', games=games,
+                               numberOfGames=len(games))
 
 
 def display_games_available_RAW():
@@ -141,7 +144,7 @@ def get_data():
         pass
 
 
-@app.route('/   ')
+@app.route('/')
 def quick_join():
     '''
     Allows user to join the next available game
@@ -201,12 +204,13 @@ def get_game(game_num):
             var = request.form['movedata']
             return store_games[game_num].make_move(str(var))
         except (KeyError):
-            return "Doing a 404<br>Your last move was: " + str(request.form['movedata'])
+            return "Doing a 404<br>Your last move was: " +
+            str(request.form['movedata'])
             abort(404)
     elif request.method == "GET":
         if game_num < len(games):
             if games[game_num] <= 2:
-                if TEST_MODE == False:
+                if not TEST_MODE:
                     if "player_id" in session:
                         # make sure that you are not already in the `
                         if session["player_id"] not in game_players[game_num]:
@@ -221,7 +225,14 @@ def get_game(game_num):
                 # TODO: check session here?
                 new_game = Game()
                 store_games[game_num] = new_game
-                return render_template('get_move.html', board_repr=str(store_games[game_num]), board_disp=str(store_games[game_num].board), game_num=game_num, somedata=store_games[game_num].board.getRAW())
+
+                board_data = store_games[game_num].board.getRAW()
+                board_disp = str(store_games[game_num].board)
+                return render_template('get_move.html',
+                                       board_repr=str(store_games[game_num]),
+                                       board_disp=board_disp,
+                                       game_num=game_num,
+                                       board_data=board_data)
             else:
                 return render_template('waiting.html', game_num=game_num)
         else:

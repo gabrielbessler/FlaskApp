@@ -1,15 +1,17 @@
 from Piece import Piece
 
-class Rook (Piece):
+
+class Rook(Piece):
 
     def __init__(self, color):
         '''
-        Creates a rook object of a given color with the allowed moveset and value 5
+        Creates a rook object of a given color with the allowed
+        moveset and value 5
         '''
         self.setName("Rook")
         self.setColor(color)
         self.upAllowed = True
-        self.setMoves(leftAllowed = True, rightAllowed = True, upAllowed = True, downAllowed = True)
+        self.setMoves(leftAllowed=True, rightAllowed=True, upAllowed=True, downAllowed=True)
         self.setValue(5)
 
     def __str__(self):
