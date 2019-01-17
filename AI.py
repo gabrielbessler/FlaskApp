@@ -1,7 +1,6 @@
 import time
 
-
-class AI(Game):
+class AI:
 
     def __init__(self, color=5, move_time=5):
         ''' Creates the new AI object that will be stored in the game

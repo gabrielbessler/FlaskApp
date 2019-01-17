@@ -1,10 +1,10 @@
 from Board import Board
+import AI
 from flask import render_template
 import random
 import math
 
 DEBUG_MODE = False
-
 
 class Game():
 
@@ -21,13 +21,13 @@ class Game():
 
         self.ai_mode = ai_mode
         if (self.ai_mode):
-            start_ai()
+            self.start_ai()
 
     def start_ai(self):
         '''
         '''
         num = random.randint(0, 1)
-        self.engine = AI(num, 5)
+        self.engine = AI.AI(num, 5)
 
     def getAllowedMoves(self, coord):
         '''
@@ -62,11 +62,12 @@ class Game():
             return self.board.getRAW()
         except ValueError as err:
             if DEBUG_MODE:
-                return str(f"{err} <br><br>") + str(self.board) + "<br><br>" +
+                return str(f"{err} <br><br>") + str(self.board) + "<br><br>" + \
                 render_template("get_move.html")
             return -1
 
-        # OLD CODE
+        # OLD CODE - TODO 
+        '''
         try:
             get_score = self.board.getTotalScore()
             display_score = f"White: {get_score[0]} points. Black: \
@@ -84,9 +85,11 @@ class Game():
             else:
                 self.curr_turn = 0
             return rt_str
+
         except ValueError as err:
-            return str(f"{err} <br><br>") + str(self.board) + "<br><br>" +
-            render_template("get_move.html")
+            return str(f"{err} <br><br>") + str(self.board) + "<br><br>" + \
+            render_template("get_move.html") 
+        '''
 
     def convert_notation(self, text, mode="chess"):
         '''
@@ -99,7 +102,7 @@ class Game():
             if text[0] in self.reverse_convertion and \
                text[2] in self.reverse_convertion:
                 output_string = self.convertion[text[0]] + text[1] + \
-                                self.convert_notation[text[2]] + text[3]
+                                self.convertion[text[2]] + text[3]
             else:
                 return "Not a valid moveset"
         elif mode == "coordinates":

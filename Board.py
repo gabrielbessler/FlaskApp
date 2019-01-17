@@ -249,7 +249,7 @@ class Board:
             for row in self.board:
                 if str(row) == "King":
                     kingList.append(row)
-        if length(kingList) == 1:
+        if len(kingList) == 1:
             return kingList[0].getColor()
         pass
 

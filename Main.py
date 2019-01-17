@@ -139,6 +139,7 @@ def get_data():
         # TODO: test this to make sure it's working with the game number
         request_data = request.get_json()
         print(request_data)
+        move_data = request_data # TODO 
         return json.dumps(store_games[0].make_move(move_data))
     except (KeyError):
         pass
@@ -161,7 +162,7 @@ def show_game():
     '''
     Used for spectating a particular game
     '''
-    return json.dump('abc')
+    return json.dumps('abc')
 
 
 @app.route('/login', methods=["POST"])
@@ -204,7 +205,7 @@ def get_game(game_num):
             var = request.form['movedata']
             return store_games[game_num].make_move(str(var))
         except (KeyError):
-            return "Doing a 404<br>Your last move was: " +
+            return "Doing a 404<br>Your last move was: " + \
             str(request.form['movedata'])
             abort(404)
     elif request.method == "GET":
