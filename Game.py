@@ -1,13 +1,12 @@
-from Board import Board
+import random
 import AI
 from flask import render_template
-import random
-import math
+from Board import Board
 
 DEBUG_MODE = False
 
 class Game():
-
+    ''''''
     def __init__(self, ai_mode=False):
         '''
         Creates a new game.
@@ -20,7 +19,7 @@ class Game():
                                    6: "F", 7: "G", 8: "H"}
 
         self.ai_mode = ai_mode
-        if (self.ai_mode):
+        if self.ai_mode:
             self.start_ai()
 
     def start_ai(self):
@@ -66,7 +65,7 @@ class Game():
                 render_template("get_move.html")
             return -1
 
-        # OLD CODE - TODO 
+        # OLD CODE - TODO
         '''
         try:
             get_score = self.board.getTotalScore()

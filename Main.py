@@ -1,13 +1,11 @@
 #!/usr/bin/python
 
-from flask import Flask, request, redirect, abort, render_template, jsonify
-from flask import session, g
-from Game import Game
-import json
 import os
+import json
 import cgitb
-import sqlite3
-import time
+from flask import Flask, request, redirect, abort, render_template
+from flask import session
+from Game import Game
 
 cgitb.enable()
 
@@ -41,16 +39,16 @@ def main_page():
         next_available_game = get_next_game()
         if next_available_game == -1:
             return json.dumps("error")
-        else:
-            return json.dumps("game\\" + str(next_available_game))
+
+        return json.dumps("game\\" + str(next_available_game))
 
     # Display available games to the user
     # If DEBUG MODE is ON, display the raw data without any styling
     if DEBUG_MODE:
         return display_games_available_RAW()
-    else:
-        return render_template('index.html', games=games,
-                               numberOfGames=len(games))
+
+    return render_template('index.html', games=games,
+                           numberOfGames=len(games))
 
 
 def display_games_available_RAW():
@@ -76,8 +74,6 @@ def get_db():
     '''
     Implementing SQL to store usernames and passwords
     '''
-    pass
-
 
 @app.route('/create_game', methods=["POST"])
 def create_game():
@@ -113,9 +109,9 @@ def get_move():
     ''' Get movedata from AJAX request and make the move for the player
         Request is sent when player clicks on a valid square on the board
     '''
-    a = request.get_json()
-    game_num = a[34:]
-    move = a[0] + a[2] + a[4] + a[6]
+    req_json = request.get_json()
+    game_num = req_jeson[34:]
+    move = req_json[0] + req_json[2] + req_json[4] + req_json[6]
     return json.dumps(store_games[int(game_num)].make_move(move))
 
 
@@ -141,7 +137,7 @@ def get_data():
         print(request_data)
         move_data = request_data # TODO 
         return json.dumps(store_games[0].make_move(move_data))
-    except (KeyError):
+    except KeyError:
         pass
 
 
@@ -167,6 +163,7 @@ def show_game():
 
 @app.route('/login', methods=["POST"])
 def login(data):
+    ''' Allows the user to log in '''
     return json.dumps(data)
 
 
@@ -204,11 +201,12 @@ def get_game(game_num):
             # Use JS to create an AJAX request
             var = request.form['movedata']
             return store_games[game_num].make_move(str(var))
-        except (KeyError):
+        except KeyError:
             return "Doing a 404<br>Your last move was: " + \
             str(request.form['movedata'])
             abort(404)
-    elif request.method == "GET":
+
+    if request.method == "GET":
         if game_num < len(games):
             if games[game_num] <= 2:
                 if not TEST_MODE:
@@ -234,10 +232,9 @@ def get_game(game_num):
                                        board_disp=board_disp,
                                        game_num=game_num,
                                        board_data=board_data)
-            else:
-                return render_template('waiting.html', game_num=game_num)
-        else:
-            abort(404)
+            return render_template('waiting.html', game_num=game_num)
+        
+        abort(404)
 
 
 def addNewPlayer(game_num, play_id):

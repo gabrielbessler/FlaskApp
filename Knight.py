@@ -1,18 +1,18 @@
 from Piece import Piece
 
 
-class Knight (Piece):
+class Knight(Piece):
 
     def __init__(self, color):
         '''
         Creates a Knight object of a given color with the allowed moveset
         and value 3
         '''
-        self.knightMoves = [[-1,  1, -1,  1, -1],
-                            [1, -1, -1, -1,  1],
-                            [-1, -1,  0, -1, -1],
-                            [1, -1, -1, -1,  1],
-                            [-1,  1, -1,  1, -1]]
+        self.knightMoves = [[-1, 1, -1, 1, -1],
+                            [1, -1, -1, -1, 1],
+                            [-1, -1, 0, -1, -1],
+                            [1, -1, -1, -1, 1],
+                            [-1, 1, -1, 1, -1]]
         self.setName("Knight")
         self.setColor(color)
         self.upAllowed = True

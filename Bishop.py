@@ -1,8 +1,11 @@
 from Piece import Piece
 
+'''
+Bishop
+'''
 
-class Bishop (Piece):
-
+class Bishop(Piece):
+    ''' Bishop Piece '''
     def __init__(self, color):
         '''
         Creates a Bishop object of a given color with the allowed moveset
@@ -10,7 +13,7 @@ class Bishop (Piece):
         '''
         self.setName("Bishop")
         self.setColor(color)
-        self.upAllowed = True
+        self.up_allowed = True
         self.setMoves(diagRight=True, diagLeft=True)
         self.setValue(3)
 

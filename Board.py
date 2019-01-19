@@ -81,7 +81,7 @@ class Board:
                     for colnum in range(len(row)):
                         if val[rownum][colnum] == 1:
                             L += [[colnum-centerX+coordX,
-                                  rownum-centerY+coordY]]
+                                   rownum-centerY+coordY]]
                         elif val[rownum][colnum] == 3:
                             if not piece.hasMoved:
                                 L += [[colnum-centerX+coordX,
@@ -93,7 +93,7 @@ class Board:
                             if piece2 != 0:
                                 if piece2.getColor() != int(turn):
                                     L += [[colnum-centerX+coordX,
-                                          rownum-centerY+coordY]]
+                                           rownum-centerY+coordY]]
 
                 allowedSquares += self.checkPieces(L, turn)
 

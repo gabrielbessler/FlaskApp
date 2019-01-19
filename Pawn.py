@@ -1,8 +1,7 @@
 from Piece import Piece
 
-
-class Pawn (Piece):
-
+class Pawn(Piece):
+    ''' Pawn Piece ''' 
     def __init__(self, color):
         '''
         Creates a Queen object of a given color with the allowed
