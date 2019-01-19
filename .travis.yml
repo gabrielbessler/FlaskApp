@@ -7,4 +7,4 @@ install:
  - pip install pylint 
 
 script:
- - pylint --disable=R,C,W *.py 
+ - pylint --disable=fixme *.py 

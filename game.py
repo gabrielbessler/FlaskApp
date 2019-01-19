@@ -1,12 +1,18 @@
+'''
+Contains all of the information required for a particular game
+'''
+
 import random
-import AI
 from flask import render_template
-from Board import Board
+from board import Board
+import ai
 
 DEBUG_MODE = False
 
 class Game():
-    ''''''
+    '''
+    Instance of a match
+    '''
     def __init__(self, ai_mode=False):
         '''
         Creates a new game.
@@ -24,16 +30,17 @@ class Game():
 
     def start_ai(self):
         '''
+        Initializes the AI
         '''
         num = random.randint(0, 1)
-        self.engine = AI.AI(num, 5)
+        self.engine = ai.AI(num, 5)
 
-    def getAllowedMoves(self, coord):
+    def get_allowed_moves(self, coord):
         '''
         Returns a list representing the set of allowed moves for the piece at
          a given coordinate
         '''
-        return self.board.getMove(coord, self.curr_turn)
+        return self.board.get_move(coord, self.curr_turn)
 
     def make_move(self, coord):
         '''
@@ -54,11 +61,11 @@ class Game():
             else:
                 self.curr_turn = 0
 
-            isMate = self.board.check_for_mate()
+            is_mate = self.board.check_for_mate()
 
-            if isMate:
+            if is_mate:
                 return 1
-            return self.board.getRAW()
+            return self.board.get_raw()
         except ValueError as err:
             if DEBUG_MODE:
                 return str(f"{err} <br><br>") + str(self.board) + "<br><br>" + \
@@ -66,7 +73,7 @@ class Game():
             return -1
 
         # OLD CODE - TODO
-        '''
+        avariable = '''
         try:
             get_score = self.board.getTotalScore()
             display_score = f"White: {get_score[0]} points. Black: \
@@ -89,6 +96,7 @@ class Game():
             return str(f"{err} <br><br>") + str(self.board) + "<br><br>" + \
             render_template("get_move.html") 
         '''
+        print(avariable)
 
     def convert_notation(self, text, mode="chess"):
         '''
