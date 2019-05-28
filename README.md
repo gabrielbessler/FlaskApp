@@ -1,6 +1,6 @@
 # FlaskApp
 
-Basic online chess application made using Flask and Bootstrap 3. 
+Basic online chess application made using Flask and Bootstrap 3. Refer to http://gabe-bessler/portfolio/Chess-App/ for a more thorough description of the project. 
 
 ## Testing 
 
