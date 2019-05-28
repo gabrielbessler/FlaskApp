@@ -1,10 +1,10 @@
 # FlaskApp
 
-Basic online chess application made using Flask and a Bootstrap 3 frontend. 
+Basic online chess application made using Flask and Bootstrap 3. Refer to http://gabe-bessler/portfolio/Chess-App/ for a more thorough description of the project. 
 
 ## Testing 
 
-In order to run the application, first create a virtual environment with all 
+In order to run the application, create a virtual environment with the required
 dependencies,
 ```
 pip install venv
@@ -16,3 +16,4 @@ and then execute
 set FLASK_APP=Main.py
 python -m flask run 
 ```
+Tested on Python 3.7.
