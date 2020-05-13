@@ -46,7 +46,7 @@ class MetaData():
 
 MD = MetaData()
 
-@APP.route('/', methods=["POST", "GET"])
+@APP.route('/chess-app', methods=["POST", "GET"])
 def main_page():
     '''
     Handles the main page for the chess web application
@@ -92,7 +92,7 @@ def get_db():
     Implementing SQL to store usernames and passwords
     '''
 
-@APP.route('/create_game', methods=["POST"])
+@APP.route('/chess-app/create_game', methods=["POST"])
 def create_game():
     '''
     Creates a new empty game that users can join
@@ -100,7 +100,7 @@ def create_game():
     MD.games.append(0)
     MD.game_players.append([0, 0])
 
-@APP.route('/about_us')
+@APP.route('/chess-app/about_us')
 def about_us_page():
     '''
     Renders the "About Us" page
@@ -108,7 +108,7 @@ def about_us_page():
     return render_template('about_us.html')
 
 
-@APP.route('/get_games', methods=["POST"])
+@APP.route('/chess-app/get_games', methods=["POST"])
 def get_open_games():
     '''
     Gets called every x seconds to check which games are currently open.
@@ -116,7 +116,7 @@ def get_open_games():
     return json.dumps(MD.games)
 
 
-@APP.route('/make_move', methods=["POST"])
+@APP.route('/chess-app/make_move', methods=["POST"])
 def get_move():
     ''' Get movedata from AJAX request and make the move for the player
         Request is sent when player clicks on a valid square on the board
@@ -127,7 +127,7 @@ def get_move():
     return json.dumps(MD.store_games[int(game_num)].make_move(move))
 
 
-@APP.route('/get_piece_move', methods=["POST"])
+@APP.route('/chess-app/get_piece_move', methods=["POST"])
 def get_piece_move():
     ''' Runs when the user submits a requests to move a piece.
     Obtains movedata as JSON from AJAX request and makes the corresponding move
@@ -139,7 +139,7 @@ def get_piece_move():
     return json.dumps(allowed_moves)
 
 
-@APP.route('/ajax', methods=["POST"])
+@APP.route('/chess-app/ajax', methods=["POST"])
 def get_data():
     '''
     Test this
@@ -165,7 +165,7 @@ def quick_join():
     return redirect("game\\" + str(get_next_game()))
 
 
-@APP.route('/show_game', methods=["POST"])
+@APP.route('/chess-app/show_game', methods=["POST"])
 def show_game():
     '''
     Used for spectating a particular game
@@ -173,13 +173,13 @@ def show_game():
     return json.dumps('abc')
 
 
-@APP.route('/login', methods=["POST"])
+@APP.route('/chess-app/login', methods=["POST"])
 def login(data):
     ''' Allows the user to log in '''
     return json.dumps(data)
 
 
-@APP.route('/spectate/<int:game_num>')
+@APP.route('/chess-app/spectate/<int:game_num>')
 def spectate_game(game_num):
     '''
     Allows the user to spectate a given game
@@ -196,7 +196,7 @@ def get_next_id():
     return MD.player_ids[0]
 
 
-@APP.route('/forgot_password')
+@APP.route('/chess-app/forgot_password')
 def forgot_pw():
     '''
     Display page for "forgot password" from login screen
@@ -204,7 +204,7 @@ def forgot_pw():
     return render_template('forgot_password.html')
 
 
-@APP.route('/game/<int:game_num>', methods=["POST", "GET"])
+@APP.route('/chess-app/game/<int:game_num>', methods=["POST", "GET"])
 def get_game(game_num):
     '''
     Handles ongoing chess matches
@@ -270,3 +270,6 @@ def page_not_found(err):
     '''
     logging.info(err)
     return render_template("404.html")
+
+if __name__ == "__main__":
+    APP.run(host='0.0.0.0')

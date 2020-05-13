@@ -7,7 +7,7 @@
 <html lang="en">
     <head>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-        <link rel="stylesheet" type="text/css" href= "{{ url_for('static',filename='main.css') }}">
+        <link rel="stylesheet" type="text/css" href= "/chess-app{{ url_for('static',filename='main.css') }}">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>Chess App</title>
     </head>
@@ -17,7 +17,7 @@
                 var login_data = "username, password";
                 $.ajax({
                     type: "POST",
-                    url: '/login',
+                    url: '/chess-app/login',
                     data: {
                         json: JSON.stringify(login_data)
                     },
@@ -29,7 +29,7 @@
             function create_login() {
                 $.ajax({
                     type: "GET",
-                    url: '/register',
+                    url: '/chess-app/register',
                     success: function(data) {
 
                     }
@@ -44,7 +44,7 @@
                 </div>
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="/">Home</a></li>
-                    <li><a href="/quick_join">Quick Join</a></li>
+                    <li><a href="/chess-app/quick_join">Quick Join</a></li>
                     <li><a href="http://gabe-bessler/projects/Chess-App">About This Project</a></li>
                     <li><a href="http://gabe-bessler/projects/">Other Projects</li>
                 </ul>
@@ -74,7 +74,7 @@
                         <!-- Register -->
                         <button onclick="create_login()" type="button" class="btn btn-default" data-dismiss="modal">Register</button>
                         <!-- Lost Password -->
-                        <a href="/forgot_password">Forgot Password?</a>
+                        <a href="/chess-app/forgot_password">Forgot Password?</a>
                         </div>
                         <div class="modal-footer">
 

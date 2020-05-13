@@ -13,7 +13,7 @@ pip install -r requirements.txt
 ```
 and then execute  
 ```
-set FLASK_APP=Main.py
+set FLASK_APP=app.py
 python -m flask run 
 ```
 Tested on Python 3.7.
